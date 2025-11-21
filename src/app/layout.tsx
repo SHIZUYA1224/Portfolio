@@ -1,6 +1,6 @@
-// filepath: /Users/Dev/Portfolio/portfolio/src/app/layout.tsx
 import type { Metadata } from 'next';
 import './globals.css';  // グローバルCSS（Tailwindなど）
+import Header from '@/components/Header';
 
 export const metadata: Metadata = {
   title: 'SHIZUYA Portfolio',
@@ -16,20 +16,10 @@ export default function RootLayout({
     <html lang="ja">
       <body className="bg-gray-50 text-gray-900">
         {/* ヘッダー */}
-        <header className="bg-white shadow-md p-4">
-          <nav className="flex justify-between items-center max-w-6xl mx-auto">
-            <h1 className="text-xl font-bold">SHIZUYA Portfolio</h1>
-            <div className="flex gap-4">
-              <a href="/" className="hover:underline">Home</a>
-              <a href="/room" className="hover:underline">3D Room</a>
-              <a href="/ai-tuber" className="hover:underline">AI-Tuber</a>
-              <a href="/music" className="hover:underline">Music</a>
-            </div>
-          </nav>
-        </header>
+        <Header />
 
-        {/* メインコンテンツ */}
-        <main>{children}</main>
+        {/* メインコンテンツ: 新規padding-top追加でHeader分の余白確保 */}
+        <main className="pt-20">{children}</main>
 
         {/* フッター */}
         <footer className="bg-gray-800 text-white p-4 mt-8">

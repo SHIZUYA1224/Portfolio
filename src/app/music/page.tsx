@@ -13,7 +13,7 @@ export default function Music() {
   ];
 
   return (
-    <main className="p-8">
+    <main>
       <Title text="Music" />
       <div className="flex flex-col gap-4 items-start mt-8">
         <Button href="/" text="Back to Home" />
