@@ -2,11 +2,10 @@
 
 import React from 'react';
 
-export default function AiTuberSection() {
+export default function ChatSection() {
   return (
     <section className="w-full py-24 bg-gray-50">
       <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-10">
-        
         {/* 左側：AI-Tuber 表示エリア */}
         <div className="flex-1 w-full h-[400px] md:h-[500px] relative bg-white rounded-lg shadow-md flex items-center justify-center">
           <div className="text-center">
@@ -30,7 +29,6 @@ export default function AiTuberSection() {
             </span>
           </div>
         </div>
-
       </div>
     </section>
   );

@@ -4,7 +4,7 @@ import HeroSection from '@/components/MainPageSections/HeroSection';
 import AboutSection from '@/components/MainPageSections/AboutSection';
 import CgSection from '@/components/MainPageSections/CgSection';
 import MusicSection from '@/components/MainPageSections/MusicSection';
-import AiTuberSection from '@/components/MainPageSections/AiTuberSection';
+import ChatSection from '@/components/MainPageSections/ChatSection';
 import ContactSection from '@/components/MainPageSections/ContactSection';
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
       <AboutSection />
       <CgSection />
       <MusicSection />
-      <AiTuberSection />
+      <ChatSection />
       <ContactSection />
     </main>
   );

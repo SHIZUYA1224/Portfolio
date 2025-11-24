@@ -9,7 +9,7 @@ export interface Song {
 export const dummySongs: Song[] = [
   {
     id: '1',
-    title: 'Sample Song 1',
+    title: 'Sample Song MAX',
     artist: 'Artist 1',
     artwork: 'https://via.placeholder.com/300x200?text=Song+1',
     audio: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',

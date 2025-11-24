@@ -2,15 +2,12 @@
 
 import Title from '@/components/common/Title';
 import Button from '@/components/common/Button';
-import MusicCard from '@/components/MusicPage/MusicCard';
+import MusicCard from '@/components/Music/MusicCard';
+import { dummySongs } from '@/types/music';
 
 export default function Music() {
   // サンプルデータ
-  const sampleSongs = [
-    { songTitle: 'Sample Song 1', artistName: 'Artist 1' },
-    { songTitle: 'Sample Song 2', artistName: 'Artist 2' },
-    { songTitle: 'Sample Song 3', artistName: 'Artist 3' },
-  ];
+  const sampleSongs = dummySongs
 
   return (
     <main>
@@ -24,9 +21,11 @@ export default function Music() {
         {sampleSongs.map((song, index) => (
           <MusicCard 
             key={index}
-            songTitle={song.songTitle}
-            artistName={song.artistName}
-            onSelect={() => console.log(`${song.songTitle} selected`)}
+            songTitle={song.title}
+            artistName={song.artist}
+            artworkUrl={song.artwork}
+            audioUrl={song.audio}
+            onSelect={() => console.log(`${song.title} selected`)}
           />
         ))}
       </div>
