@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       }
     );
     const AiResponse = response.data.choices[0].message.content;
-    return NextResponse.json({ replay: AiResponse });
+    return NextResponse.json({ reply: AiResponse });
   } catch (error) {
     let errorMessage = 'Unknown error';
     if (error instanceof AxiosError) {

@@ -1,13 +1,15 @@
-'use client'; // ← この行を一番上に追加してください
+'use client';
 
 import Title from '@/components/common/Title';
 import Button from '@/components/common/Button';
-import MusicCard from '@/components/Music/MusicCard';
-import { dummySongs } from '@/types/music';
+import TrackList from '@/components/TrackList';
+import Player from '@/components/Player';
+import { TRACKS } from './data/tracks';
+import { useState } from 'react';
+import type { Track } from './data/tracks'; // 型インポート
 
 export default function Music() {
-  // サンプルデータ
-  const sampleSongs = dummySongs
+  const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
 
   return (
     <main>
@@ -17,17 +19,17 @@ export default function Music() {
         <Button href="/ai-tuber" text="AI-Tuber" />
         <Button href="/room" text="3D Room" />
 
-        {/* サンプルカードを表示 */}
-        {sampleSongs.map((song, index) => (
-          <MusicCard 
-            key={index}
-            songTitle={song.title}
-            artistName={song.artist}
-            artworkUrl={song.artwork}
-            audioUrl={song.audio}
-            onSelect={() => console.log(`${song.title} selected`)}
+        <div style={{ padding: 20 }}>
+          <h1>Music</h1>
+
+          <TrackList tracks={TRACKS} onSelectTrack={setCurrentTrack} />
+
+          <Player
+            track={currentTrack}
+            playlist={TRACKS}
+            onSelectTrack={setCurrentTrack}
           />
-        ))}
+        </div>
       </div>
     </main>
   );

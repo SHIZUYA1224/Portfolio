@@ -33,17 +33,16 @@ function SimpleObject() {
 
 export default function ThreeDFeature() {
   return (
-    <section className="w-full py-24 bg-white">
+    <section className="w-full h-full bg-white">
       <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-10">
-        
         {/* 左側：テキストエリア */}
         <div className="flex-1 space-y-4">
           <h2 className="text-3xl font-bold text-gray-900">
             3D Modeling & Design
           </h2>
           <p className="text-gray-600 leading-relaxed">
-            Webデザインだけでなく、3Dアセットの制作や実装も対応可能です。
-            React Three Fiberを用いたインタラクティブな表現で、
+            Webデザインだけでなく、3Dアセットの制作や実装も対応可能です。 React
+            Three Fiberを用いたインタラクティブな表現で、
             ブランドに新しい奥行きを持たせることができます。
           </p>
           <div className="pt-2">
@@ -57,22 +56,29 @@ export default function ThreeDFeature() {
             背景色を指定していないので、親の bg-white がそのまま透けます
         */}
         <div className="flex-1 w-full h-[400px] md:h-[500px] relative">
-          <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+          <Canvas
+            camera={{ position: [0, 0, 5], fov: 50 }}
+            style={{ height: '100%' }} // 追加: divの高さいっぱいに
+          >
             {/* ライト設定: シンプルに */}
             <ambientLight intensity={0.7} />
             <directionalLight position={[10, 10, 5]} intensity={1.5} />
-            
+
             {/* オブジェクト */}
             <SimpleObject />
-            
+
             {/* 床に落ちる影（あると接地感が出て「そこに在る」感じになる） */}
-            <ContactShadows position={[0, -2, 0]} opacity={0.4} scale={10} blur={2} />
-            
+            <ContactShadows
+              position={[0, -2, 0]}
+              opacity={0.4}
+              scale={10}
+              blur={2}
+            />
+
             {/* ユーザーが動かせるようにする（ズームは無効化して邪魔にならないように） */}
             <OrbitControls enableZoom={false} />
           </Canvas>
         </div>
-
       </div>
     </section>
   );
