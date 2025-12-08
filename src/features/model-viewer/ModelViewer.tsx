@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from 'react';
 import { Scene } from './Scene';
-import type { ViewerSettings, PresetModel } from '@/types/model';
-import { PRESET_MODELS } from '@/config/models';
+import type { ViewerSettings, PresetModel } from '@/features/model-viewer/types';
+import { PRESET_MODELS } from '@/features/model-viewer/data/models';
 
 export function ModelViewer() {
   const [selectedId, setSelectedId] = useState<string>(PRESET_MODELS[0]?.id);

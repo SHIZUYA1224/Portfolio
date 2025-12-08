@@ -1,6 +1,4 @@
-// src/app/model/page.tsx
-
-import { ModelViewer } from '@/components/model-viewer';
+import { ModelViewer } from '@/features/model-viewer';
 
 export default function ModelPage() {
   return (

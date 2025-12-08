@@ -7,7 +7,7 @@ import React, {
   ReactNode,
   useRef,
 } from 'react';
-import type { Track } from '@/config/tracks';
+import type { Track } from '@/features/music/types';
 
 type PlayerControls = {
   seek?: (t: number) => void;
@@ -22,9 +22,7 @@ type PlayerContextType = {
   playTrack: (t: Track) => void;
   togglePlay: () => void;
   setIsPlaying: (v: boolean) => void;
-
-  // 追加: 外部から audio 操作するため
-  registerControls: (c: PlayerControls) => () => void; // <- 戻り値: deregister 関数
+  registerControls: (c: PlayerControls) => () => void;
   seekTo: (time: number) => void;
   playFrom: (time: number) => void;
 };
@@ -40,7 +38,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const playTrack = (t: Track) => {
     setCurrentTrack(t);
     setIsPlaying(true);
-    // 非同期で呼ぶ
     Promise.resolve().then(() => controlsRef.current.play?.());
   };
 
@@ -56,11 +53,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  // registerControls: Player が呼び出してシーク/プレイ関数を登録する
   const registerControls = (c: PlayerControls) => {
     controlsRef.current = { ...controlsRef.current, ...(c ?? {}) };
     const keys = Object.keys(c ?? {});
-    // deregister 関数を返す
     return () => {
       controlsRef.current = Object.fromEntries(
         Object.entries(controlsRef.current).filter(([k]) => !keys.includes(k))
@@ -68,14 +63,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     };
   };
 
-  // 外部から再生位置を切り替えるための関数
   const seekTo = (time: number) => {
     controlsRef.current.seek?.(time);
     setIsPlaying(true);
     setTimeout(() => controlsRef.current.play?.(), 0);
   };
 
-  // 時刻指定で再生を開始する（seek + play）
   const playFrom = (time: number) => {
     controlsRef.current.seek?.(time);
     setIsPlaying(true);

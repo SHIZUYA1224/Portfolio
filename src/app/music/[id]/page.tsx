@@ -1,17 +1,16 @@
 'use client';
-import { useParams } from 'next/navigation';
-import Title from '@/components/common/Title';
-import { TRACKS } from '@/config/tracks';
+
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { usePlayer } from '@/context/PlayerContext';
+import { useParams } from 'next/navigation';
+import Title from '@/components/common/Title';
+import { TRACKS, usePlayer } from '@/features/music';
 
 export default function MusicDetail() {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const track = TRACKS.find((t) => t.id === params?.id);
-  const { seekTo, playFrom } = usePlayer(); // Context からシーク/再生関数を取得
+  const { playFrom } = usePlayer();
 
-  // 画面にスクロールした割合 (0~1) を表示したい場合
   const [scrolledTime, setScrolledTime] = useState<number | null>(null);
   const ticking = useRef(false);
 
@@ -29,8 +28,6 @@ export default function MusicDetail() {
           maxScroll > 0 ? Math.min(1, Math.max(0, scrolled / maxScroll)) : 0;
         const targetTime = (track.duration || 0) * ratio;
 
-        // シークのみで再生が既に始まっている場合は seekTo を呼ぶ
-        // ここではスクロールしたらその位置から再生したいので playFrom を使う
         playFrom(targetTime);
 
         setScrolledTime(targetTime);
@@ -62,7 +59,6 @@ export default function MusicDetail() {
       <p className="p-4">Artist: {track.artist}</p>
       <p className="p-4">…ここに制作ノートや作り方を記載…</p>
 
-      {/* スクロールに基づく再生時間の表示（任意） */}
       <div className="p-4 text-sm text-gray-500">
         Scroll Time: {scrolledTime != null ? formatTime(scrolledTime) : '—'} /{' '}
         {formatTime(track.duration || 0)}

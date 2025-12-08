@@ -7,7 +7,7 @@ import { Lighting } from './Lighting';
 import { CameraControls } from './CameraControls';
 import { GltfModel } from './GltfModel';
 import { VrmModel } from './VrmModel';
-import type { PresetModel, ViewerSettings } from '@/types/model';
+import type { PresetModel, ViewerSettings } from '@/features/model-viewer/types';
 
 interface SceneProps {
   model: PresetModel | null;
@@ -25,12 +25,7 @@ function Loader() {
   );
 }
 
-export function Scene({
-  model,
-  settings,
-  onModelLoad,
-  onModelError,
-}: SceneProps) {
+export function Scene({ model, settings, onModelLoad, onModelError }: SceneProps) {
   return (
     <Canvas
       shadows
@@ -59,18 +54,10 @@ export function Scene({
       <Suspense fallback={<Loader />}>
         <Center>
           {model?.type === 'gltf' && (
-            <GltfModel
-              url={model.url}
-              onLoad={onModelLoad}
-              onError={onModelError}
-            />
+            <GltfModel url={model.url} onLoad={onModelLoad} onError={onModelError} />
           )}
           {model?.type === 'vrm' && (
-            <VrmModel
-              url={model.url}
-              onLoad={onModelLoad}
-              onError={onModelError}
-            />
+            <VrmModel url={model.url} onLoad={onModelLoad} onError={onModelError} />
           )}
         </Center>
       </Suspense>

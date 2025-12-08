@@ -1,10 +1,11 @@
 'use client';
 
-import useAudioPlayer from '@/app/music/useAudioPlayer';
-import type { Track } from '@/config/tracks';
-import { Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
+import Image from 'next/image';
 import { useEffect } from 'react';
-import { usePlayer } from '@/context/PlayerContext'; // 追加: Context との同期
+import { Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
+import useAudioPlayer from '@/features/music/hooks/useAudioPlayer';
+import type { Track } from '@/features/music/types';
+import { usePlayer } from '@/features/music/context/PlayerContext';
 
 type PlayerProps = {
   track: Track | null;
@@ -12,11 +13,7 @@ type PlayerProps = {
   onSelectTrack: (t: Track) => void;
 };
 
-export default function Player({
-  track,
-  playlist,
-  onSelectTrack,
-}: PlayerProps) {
+export default function Player({ track, playlist, onSelectTrack }: PlayerProps) {
   const {
     audioRef,
     progress,
@@ -30,21 +27,17 @@ export default function Player({
   } = useAudioPlayer(track);
 
   const {
-    currentTrack,
     isPlaying: ctxIsPlaying,
     setIsPlaying: setCtxIsPlaying,
     registerControls,
   } = usePlayer();
 
-  // Context -> Audio 一方向同期（再生を命令）
-  // 追加: 内部の isPlaying と照合して差分がある場合のみ呼ぶ
   useEffect(() => {
     if (ctxIsPlaying === isPlaying) return;
     if (ctxIsPlaying) void play();
     else pause();
   }, [ctxIsPlaying, isPlaying, play, pause]);
 
-  // audio の実際の状態が変わったら Context を更新（Audio -> Context）
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -63,17 +56,18 @@ export default function Player({
     };
   }, [audioRef, setCtxIsPlaying]);
 
-  // registerControls の登録はそのまま
   useEffect(() => {
     const dereg = registerControls({ seek, play, pause, setVol });
-    // dereg は常に関数が返るので直接返すのが自然
     return () => dereg();
   }, [registerControls, seek, play, pause, setVol]);
 
-  // 再生しないときはPlayer UI非表示（既存）
-  if (!track) return null;
+  if (!track || playlist.length === 0) return null;
 
-  const currentIndex = playlist.findIndex((t) => t.id === track.id);
+  const coverSrc =
+    track.coverUrl ||
+    'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="%234B5563"><rect width="40" height="40" rx="4" ry="4"/><text x="9" y="24" font-size="14" fill="%23CBD5E1">♫</text></svg>';
+
+  const currentIndex = Math.max(playlist.findIndex((t) => t.id === track.id), 0);
 
   const nextTrack = () => {
     const next = playlist[(currentIndex + 1) % playlist.length];
@@ -86,7 +80,6 @@ export default function Player({
     onSelectTrack(prev);
   };
 
-  // formatTime 省略（元のまま）
   const formatTime = (time: number) => {
     if (!isFinite(time) || time < 0) return '0:00';
     const totalSeconds = Math.floor(time);
@@ -99,17 +92,14 @@ export default function Player({
     <div className="fixed bottom-0 left-0 right-0 bg-black text-gray-300 p-3 z-50 border-t border-gray-600">
       <audio ref={audioRef} />
 
-      {/* UI: 既存の JSX そのまま */}
       <div className="flex items-center justify-between max-w-7xl mx-auto">
-        {/* 左：曲情報 */}
         <div className="flex items-center w-1/4 min-w-[150px] pr-2">
-          <img
-            src={
-              track.coverUrl ||
-              'https://placehold.co/40x40/374151/ffffff?text=♫'
-            }
+          <Image
+            src={coverSrc}
             alt={`${track.title} cover`}
-            className="w-10 h-10 rounded-md object-cover mr-2 flex-shrink-0"
+            width={40}
+            height={40}
+            className="rounded-md object-cover mr-2 flex-shrink-0"
           />
           <div className="truncate">
             <h3 className="text-sm font-medium truncate text-gray-200">
@@ -121,13 +111,11 @@ export default function Player({
           </div>
         </div>
 
-        {/* 中央: Prev / Play / Next */}
         <div className="flex items-center justify-center space-x-3 w-1/2">
           <button onClick={prevTrack} aria-label="Previous Track">
             <SkipBack className="w-4 h-4" />
           </button>
 
-          {/* Play ボタンは Context を操作し、Context -> audio の流れで再生を操作 */}
           <button
             onClick={() => setCtxIsPlaying(!ctxIsPlaying)}
             aria-label={ctxIsPlaying ? 'Pause' : 'Play'}
@@ -144,7 +132,6 @@ export default function Player({
           </button>
         </div>
 
-        {/* 右側のシーク/ボリューム */}
         <div className="hidden md:flex items-center justify-end w-1/4 space-x-4">
           <div className="flex items-center w-full max-w-sm">
             <span className="text-xs mr-1 min-w-[30px] text-right font-mono">

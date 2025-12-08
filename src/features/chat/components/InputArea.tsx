@@ -19,10 +19,10 @@ export default function InputArea({
         <input
           type="text"
           value={input}
-          onChange={(e) => setInput(e.target.value)} // 制御コンポーネント（因果: 単方向データフロー）
+          onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              e.preventDefault(); // フォーム送信防止
+              e.preventDefault();
               sendMessage();
             }
           }}
@@ -35,7 +35,7 @@ export default function InputArea({
           disabled={isSending}
           className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          {isSending ? '送信中...' : '送信'} // 条件テキスト（UX: 状態視覚化）
+          {isSending ? '送信中...' : '送信'}
         </button>
       </div>
     </div>

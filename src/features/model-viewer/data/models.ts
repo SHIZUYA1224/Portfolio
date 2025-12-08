@@ -1,6 +1,4 @@
-// src/config/models.ts
-
-import type { PresetModel } from '@/types/model';
+import type { PresetModel } from '@/features/model-viewer/types';
 
 export const PRESET_MODELS: PresetModel[] = [
   {

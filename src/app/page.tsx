@@ -1,5 +1,3 @@
-import Title from '@/components/common/Title';
-import Button from '@/components/common/Button';
 import HeroSection from '@/components/MainPageSections/HeroSection';
 import AboutSection from '@/components/MainPageSections/AboutSection';
 import CgSection from '@/components/MainPageSections/CgSection';

@@ -1,13 +1,4 @@
-export type Track = {
-  id: string;
-  title: string;
-  artist: string;
-  coverUrl: string;
-  audioUrl: string;
-  duration: number; // 秒
-  category: string;
-  genre: string;
-};
+import type { Track } from '../types';
 
 export const TRACKS: Track[] = [
   {

@@ -17,7 +17,7 @@ export default function MessageList({ messages }: Props) {
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4 mb-20 pt-20">
       {messages.map((m, i) => (
-        <Message key={i} message={m} index={i} /> // keyをpropsで渡し、親で管理推奨
+        <Message key={i} message={m} index={i} />
       ))}
     </div>
   );

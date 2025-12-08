@@ -1,9 +1,7 @@
 'use client';
 
-import { PlayerProvider, usePlayer } from '@/context/PlayerContext';
-import Player from '@/components/Player'; // あなたのPlayerコンポーネント
-import { TRACKS } from '@/config/tracks';
 import type { ReactNode } from 'react';
+import { Player, PlayerProvider, TRACKS, usePlayer } from '@/features/music';
 
 function MusicPlayerWrapper() {
   const { currentTrack, playTrack } = usePlayer();

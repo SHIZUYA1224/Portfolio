@@ -1,27 +1,23 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
-import type { Track } from '@/config/tracks';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { Track } from '@/features/music/types';
 
 export default function useAudioPlayer(track: Track | null) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0); // 秒
+  const [progress, setProgress] = useState(0); // seconds
   const [volume, setVolume] = useState(1);
   const [duration, setDuration] = useState<number>(track?.duration || 0);
 
-  // Track 切り替え時の初期化と自動再生
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !track) return;
 
     audio.src = track.audioUrl;
     audio.load();
-
-    audio.volume = volume;
-    setProgress(0);
-    setDuration(track.duration || 0);
+    audio.currentTime = 0;
 
     void audio
       .play()
@@ -31,9 +27,8 @@ export default function useAudioPlayer(track: Track | null) {
       .catch(() => {
         setIsPlaying(false);
       });
-  }, [track, volume]);
+  }, [track]);
 
-  // イベント登録: loadedmetadata/timeupdate/play/pause/ended を一か所で登録
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -61,8 +56,6 @@ export default function useAudioPlayer(track: Track | null) {
     audio.addEventListener('pause', onPause);
     audio.addEventListener('ended', onEnded);
 
-    // debug: console.log('[useAudioPlayer] attached audio events', { src: audio.src });
-
     return () => {
       audio.removeEventListener('loadedmetadata', onLoaded);
       audio.removeEventListener('timeupdate', onTimeUpdate);
@@ -72,27 +65,20 @@ export default function useAudioPlayer(track: Track | null) {
     };
   }, [track]);
 
-  // 音量を audio に反映（外部 setVol からの変更も反映）
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
   }, [volume]);
 
-  // play/pause/seek/setVol as before
-  const play = useCallback(
-    async () => {
-      const audio = audioRef.current;
-      if (!audio) return;
-      try {
-        await audio.play();
-        setIsPlaying(true);
-      } catch (e) {
-        setIsPlaying(false);
-      }
-    },
-    [
-      /* deps */
-    ]
-  );
+  const play = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    try {
+      await audio.play();
+      setIsPlaying(true);
+    } catch {
+      setIsPlaying(false);
+    }
+  }, []);
 
   const pause = useCallback(() => {
     const audio = audioRef.current;
@@ -143,7 +129,7 @@ export default function useAudioPlayer(track: Track | null) {
     progress,
     volume,
     duration,
-    isPlaying, // 表示のみ/比較用
+    isPlaying,
     togglePlay,
     seek,
     setVol,
