@@ -10,6 +10,7 @@ export const TRACKS: Track[] = [
     duration: 191,
     category: 'DoPs',
     genre: 'Electronic',
+    notesPath: '/notes/001.md',
   },
   {
     id: '002',
@@ -20,5 +21,6 @@ export const TRACKS: Track[] = [
     duration: 142,
     category: 'BGM',
     genre: 'LoFi',
+    notesPath: '/notes/002.md',
   },
 ];

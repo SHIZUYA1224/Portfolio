@@ -20,6 +20,7 @@ type PlayerContextType = {
   currentTrack: Track | null;
   isPlaying: boolean;
   playTrack: (t: Track) => void;
+  selectTrack: (t: Track) => void;
   togglePlay: () => void;
   setIsPlaying: (v: boolean) => void;
   registerControls: (c: PlayerControls) => () => void;
@@ -29,8 +30,14 @@ type PlayerContextType = {
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
-export function PlayerProvider({ children }: { children: ReactNode }) {
-  const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
+export function PlayerProvider({
+  children,
+  initialTrack = null,
+}: {
+  children: ReactNode;
+  initialTrack?: Track | null;
+}) {
+  const [currentTrack, setCurrentTrack] = useState<Track | null>(initialTrack);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const controlsRef = useRef<PlayerControls>({});
@@ -38,7 +45,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const playTrack = (t: Track) => {
     setCurrentTrack(t);
     setIsPlaying(true);
-    Promise.resolve().then(() => controlsRef.current.play?.());
+  };
+
+  const selectTrack = (t: Track) => {
+    setCurrentTrack(t);
+    setIsPlaying(false);
   };
 
   const togglePlay = () => {
@@ -79,6 +90,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     currentTrack,
     isPlaying,
     playTrack,
+    selectTrack,
     togglePlay,
     setIsPlaying,
     registerControls,

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
 import useAudioPlayer from '@/features/music/hooks/useAudioPlayer';
 import type { Track } from '@/features/music/types';
@@ -32,6 +32,22 @@ export default function Player({ track, playlist, onSelectTrack }: PlayerProps) 
     registerControls,
   } = usePlayer();
 
+  const currentIndex = track ? playlist.findIndex((t) => t.id === track.id) : -1;
+  const effectiveIndex = currentIndex >= 0 ? currentIndex : 0;
+
+  const nextTrack = useCallback(() => {
+    if (!playlist.length) return;
+    const next = playlist[(effectiveIndex + 1) % playlist.length];
+    onSelectTrack(next);
+  }, [effectiveIndex, onSelectTrack, playlist]);
+
+  const prevTrack = useCallback(() => {
+    if (!playlist.length) return;
+    const prev =
+      playlist[(effectiveIndex - 1 + playlist.length) % playlist.length];
+    onSelectTrack(prev);
+  }, [effectiveIndex, onSelectTrack, playlist]);
+
   useEffect(() => {
     if (ctxIsPlaying === isPlaying) return;
     if (ctxIsPlaying) void play();
@@ -44,7 +60,10 @@ export default function Player({ track, playlist, onSelectTrack }: PlayerProps) 
 
     const handlePlay = () => setCtxIsPlaying(true);
     const handlePause = () => setCtxIsPlaying(false);
-    const handleEnded = () => setCtxIsPlaying(false);
+    const handleEnded = () => {
+      setCtxIsPlaying(false);
+      if (playlist.length > 1) nextTrack();
+    };
 
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
@@ -54,7 +73,7 @@ export default function Player({ track, playlist, onSelectTrack }: PlayerProps) 
       audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [audioRef, setCtxIsPlaying]);
+  }, [audioRef, nextTrack, playlist.length, setCtxIsPlaying]);
 
   useEffect(() => {
     const dereg = registerControls({ seek, play, pause, setVol });
@@ -66,19 +85,6 @@ export default function Player({ track, playlist, onSelectTrack }: PlayerProps) 
   const coverSrc =
     track.coverUrl ||
     'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="%234B5563"><rect width="40" height="40" rx="4" ry="4"/><text x="9" y="24" font-size="14" fill="%23CBD5E1">♫</text></svg>';
-
-  const currentIndex = Math.max(playlist.findIndex((t) => t.id === track.id), 0);
-
-  const nextTrack = () => {
-    const next = playlist[(currentIndex + 1) % playlist.length];
-    onSelectTrack(next);
-  };
-
-  const prevTrack = () => {
-    const prev =
-      playlist[(currentIndex - 1 + playlist.length) % playlist.length];
-    onSelectTrack(prev);
-  };
 
   const formatTime = (time: number) => {
     if (!isFinite(time) || time < 0) return '0:00';

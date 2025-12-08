@@ -9,9 +9,10 @@ export default function Chat() {
   >([]);
   const [input, setInput] = React.useState('');
   const [isSending, setIsSending] = React.useState(false);
+  const [isStreaming, setIsStreaming] = React.useState(false);
 
   const sendMessage = async () => {
-    if (!input.trim() || isSending) return;
+    if (!input.trim() || isSending || isStreaming) return;
 
     setIsSending(true);
     const newMessages = [...messages, { role: 'user', content: input }];
@@ -28,7 +29,24 @@ export default function Chat() {
       });
 
       const { reply } = await res.json();
-      setMessages([...newMessages, { role: 'assistant', content: reply }]);
+      setIsStreaming(true);
+      setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
+
+      // タイピング風に1文字ずつ表示
+      let idx = 0;
+      const interval = setInterval(() => {
+        idx += 1;
+        const next = reply.slice(0, idx);
+        setMessages((prev) =>
+          prev.map((m, i) =>
+            i === prev.length - 1 ? { ...m, content: next } : m
+          )
+        );
+        if (idx >= reply.length) {
+          clearInterval(interval);
+          setIsStreaming(false);
+        }
+      }, 12); // タイピング速度
     } catch (error) {
       console.error('送信エラー:', error);
     } finally {
@@ -38,11 +56,12 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      <MessageList messages={messages} />
+      <MessageList messages={messages} isThinking={isSending || isStreaming} />
       <InputArea
         input={input}
         setInput={setInput}
-        isSending={isSending}
+        isSending={isSending || isStreaming}
+        isStreaming={isStreaming}
         sendMessage={sendMessage}
       />
     </div>

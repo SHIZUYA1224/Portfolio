@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import './globals.css';  // グローバルCSS（Tailwindなど）
+import './globals.css';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'SHIZUYA Portfolio',
@@ -21,12 +22,7 @@ export default function RootLayout({
         {/* メインコンテンツ: 新規padding-top追加でHeader分の余白確保 */}
         <main className="pt-20">{children}</main>
 
-        {/* フッター */}
-        <footer className="bg-gray-800 text-white p-4 mt-8">
-          <div className="max-w-6xl mx-auto text-center">
-            <p>&copy; 2024 SHIZUYA. All rights reserved.</p>
-          </div>
-        </footer>
+        <Footer />
       </body>
     </html>
   );

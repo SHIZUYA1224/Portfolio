@@ -18,15 +18,6 @@ export default function useAudioPlayer(track: Track | null) {
     audio.src = track.audioUrl;
     audio.load();
     audio.currentTime = 0;
-
-    void audio
-      .play()
-      .then(() => {
-        setIsPlaying(true);
-      })
-      .catch(() => {
-        setIsPlaying(false);
-      });
   }, [track]);
 
   useEffect(() => {

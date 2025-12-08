@@ -12,7 +12,7 @@ function MusicPlayerWrapper() {
 
 export default function MusicLayout({ children }: { children: ReactNode }) {
   return (
-    <PlayerProvider>
+    <PlayerProvider initialTrack={TRACKS[0] ?? null}>
       <>
         {children}
         <MusicPlayerWrapper />

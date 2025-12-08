@@ -7,6 +7,7 @@ export interface ModelData {
   url: string;
   type: ModelType;
   name: string;
+  thumbnail?: string;
 }
 
 export interface PresetModel extends ModelData {
