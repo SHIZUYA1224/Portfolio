@@ -80,6 +80,13 @@ export default function Player({ track, playlist, onSelectTrack }: PlayerProps) 
     return () => dereg();
   }, [registerControls, seek, play, pause, setVol]);
 
+  // トラックが変わったとき、現在の再生状態に合わせて同期
+  useEffect(() => {
+    if (!track) return;
+    if (ctxIsPlaying) void play();
+    else pause();
+  }, [track, ctxIsPlaying, play, pause]);
+
   if (!track || playlist.length === 0) return null;
 
   const coverSrc =
