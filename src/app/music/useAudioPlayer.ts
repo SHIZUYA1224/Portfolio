@@ -78,16 +78,21 @@ export default function useAudioPlayer(track: Track | null) {
   }, [volume]);
 
   // play/pause/seek/setVol as before
-  const play = useCallback(async () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    try {
-      await audio.play();
-      setIsPlaying(true);
-    } catch (e) {
-      setIsPlaying(false);
-    }
-  }, []);
+  const play = useCallback(
+    async () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      try {
+        await audio.play();
+        setIsPlaying(true);
+      } catch (e) {
+        setIsPlaying(false);
+      }
+    },
+    [
+      /* deps */
+    ]
+  );
 
   const pause = useCallback(() => {
     const audio = audioRef.current;
@@ -104,12 +109,12 @@ export default function useAudioPlayer(track: Track | null) {
     }
   }, [isPlaying, play, pause]);
 
-  const seek = useCallback((value: number) => {
+  const seek = useCallback((time: number) => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const safeSeek = () => {
-      const target = Math.max(0, value);
+      const target = Math.max(0, time);
       if (Number.isFinite(audio.duration)) {
         audio.currentTime = Math.min(target, audio.duration);
       } else {

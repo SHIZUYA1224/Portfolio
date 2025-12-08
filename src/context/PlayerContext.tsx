@@ -24,7 +24,7 @@ type PlayerContextType = {
   setIsPlaying: (v: boolean) => void;
 
   // 追加: 外部から audio 操作するため
-  registerControls: (c: PlayerControls) => void;
+  registerControls: (c: PlayerControls) => () => void; // <- 戻り値: deregister 関数
   seekTo: (time: number) => void;
   playFrom: (time: number) => void;
 };
@@ -59,10 +59,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   // registerControls: Player が呼び出してシーク/プレイ関数を登録する
   const registerControls = (c: PlayerControls) => {
     controlsRef.current = { ...controlsRef.current, ...(c ?? {}) };
-    // 返り値: deregister
+    const keys = Object.keys(c ?? {});
+    // deregister 関数を返す
     return () => {
-      // 適切にクリーンアップする戦略に応じて実装
-      controlsRef.current = {}; // シンプルに全部消す
+      controlsRef.current = Object.fromEntries(
+        Object.entries(controlsRef.current).filter(([k]) => !keys.includes(k))
+      ) as PlayerControls;
     };
   };
 

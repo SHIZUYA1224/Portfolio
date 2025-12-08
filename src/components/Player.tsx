@@ -65,7 +65,9 @@ export default function Player({
 
   // registerControls の登録はそのまま
   useEffect(() => {
-    registerControls({ seek, play, pause, setVol });
+    const dereg = registerControls({ seek, play, pause, setVol });
+    // dereg は常に関数が返るので直接返すのが自然
+    return () => dereg();
   }, [registerControls, seek, play, pause, setVol]);
 
   // 再生しないときはPlayer UI非表示（既存）
