@@ -19,6 +19,12 @@
 
 # production
 *.glb
+*.mp3
+*.wav
+*.m4a
+*.flac
+*.ogg
+*.aac
 /build
 
 # misc
