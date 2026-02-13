@@ -3,10 +3,14 @@
 import { useMemo, useState } from 'react';
 import { Scene } from './Scene';
 import type { ViewerSettings, PresetModel } from '@/features/model-viewer/types';
-import { PRESET_MODELS } from '@/features/model-viewer/data/models';
+import {
+  MODEL_LIBRARY,
+  MODEL_PAGE_CONFIG,
+  getModelsByCategory,
+} from '@/features/model-viewer/config/modelLibrary';
 
 export function ModelViewer() {
-  const [selectedId, setSelectedId] = useState<string>(PRESET_MODELS[0]?.id);
+  const [selectedId, setSelectedId] = useState<string>(MODEL_LIBRARY[0]?.id);
 
   const [settings, setSettings] = useState<ViewerSettings>({
     autoRotate: true,
@@ -15,18 +19,11 @@ export function ModelViewer() {
   });
 
   const selectedModel = useMemo<PresetModel | null>(() => {
-    return PRESET_MODELS.find((m) => m.id === selectedId) ?? null;
+    return MODEL_LIBRARY.find((m) => m.id === selectedId) ?? null;
   }, [selectedId]);
 
-  const characters = useMemo(
-    () => PRESET_MODELS.filter((m) => m.category === 'character'),
-    []
-  );
-
-  const objects = useMemo(
-    () => PRESET_MODELS.filter((m) => m.category === 'object'),
-    []
-  );
+  const characters = useMemo(() => getModelsByCategory('character'), []);
+  const objects = useMemo(() => getModelsByCategory('object'), []);
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
@@ -42,7 +39,9 @@ export function ModelViewer() {
       />
 
       <div className="absolute top-4 left-4 z-10 bg-white/95 rounded-lg p-4 shadow space-y-4 w-64">
-        <h3 className="font-bold text-gray-800 text-sm">キャラクター</h3>
+        <h3 className="font-bold text-gray-800 text-sm">
+          {MODEL_PAGE_CONFIG.categoryLabel.character}
+        </h3>
         <div className="flex flex-col gap-2">
           {characters.map((model) => (
             <button
@@ -64,7 +63,9 @@ export function ModelViewer() {
           ))}
         </div>
 
-        <h3 className="font-bold text-gray-800 text-sm mt-2">オブジェクト</h3>
+        <h3 className="font-bold text-gray-800 text-sm mt-2">
+          {MODEL_PAGE_CONFIG.categoryLabel.object}
+        </h3>
         <div className="flex flex-col gap-2">
           {objects.map((model) => (
             <button

@@ -2,6 +2,8 @@
 
 3D / Music / AI を組み合わせたポートフォリオサイト（Next.js 16, TypeScript, Tailwind）。
 
+運用者向け手順は `PORTFOLIO_GUIDE.md` を参照してください。
+
 ## 開発の流れ
 1. 依存関係をインストール
    ```bash
@@ -26,6 +28,7 @@
 
 ## 環境変数
 - `GROK_API_KEY` … xAI Grok API キー（必須）
+- `ALLOWED_ORIGINS` … `/api/aichat` への許可オリジン（カンマ区切り、任意）
 - `OPENAI_API_KEY` … OpenAI を使う場合に任意で利用（現状は未使用）
 
 ## スクリプト

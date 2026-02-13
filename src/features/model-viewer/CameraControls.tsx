@@ -2,26 +2,34 @@
 
 'use client';
 
+import type { RefObject } from 'react';
 import { OrbitControls } from '@react-three/drei';
+import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 
 interface CameraControlsProps {
   autoRotate?: boolean;
+  target?: [number, number, number];
+  controlsRef?: RefObject<OrbitControlsImpl | null>;
 }
 
-export function CameraControls({ autoRotate = false }: CameraControlsProps) {
+export function CameraControls({
+  autoRotate = false,
+  target = [0, 1.05, 0],
+  controlsRef,
+}: CameraControlsProps) {
   return (
     <OrbitControls
+      ref={controlsRef}
       autoRotate={autoRotate}
-      autoRotateSpeed={2}
-      enablePan
+      autoRotateSpeed={1.6}
+      enablePan={false}
       enableZoom
       enableRotate
-      minDistance={1}
+      target={target}
+      minDistance={2.1}
       maxDistance={100}
       zoomSpeed={0.8}
       rotateSpeed={0.5}
-      minPolarAngle={0}
-      maxPolarAngle={Math.PI}
     />
   );
 }

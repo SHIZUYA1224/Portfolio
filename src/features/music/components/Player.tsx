@@ -7,6 +7,8 @@ import useAudioPlayer from '@/features/music/hooks/useAudioPlayer';
 import type { Track } from '@/features/music/types';
 import { usePlayer } from '@/features/music/context/PlayerContext';
 
+const PREV_RESTART_THRESHOLD_SECONDS = 3;
+
 type PlayerProps = {
   track: Track | null;
   playlist: Track[];
@@ -43,10 +45,19 @@ export default function Player({ track, playlist, onSelectTrack }: PlayerProps) 
 
   const prevTrack = useCallback(() => {
     if (!playlist.length) return;
+
+    // Common player behavior:
+    // - If we are already into the song, jump to its start.
+    // - If near the start, move to the previous track.
+    if (progress > PREV_RESTART_THRESHOLD_SECONDS) {
+      seek(0);
+      return;
+    }
+
     const prev =
       playlist[(effectiveIndex - 1 + playlist.length) % playlist.length];
     onSelectTrack(prev);
-  }, [effectiveIndex, onSelectTrack, playlist]);
+  }, [effectiveIndex, onSelectTrack, playlist, progress, seek]);
 
   useEffect(() => {
     if (ctxIsPlaying === isPlaying) return;

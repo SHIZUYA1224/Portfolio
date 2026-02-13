@@ -1,82 +1,137 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Torus, OrbitControls, ContactShadows } from '@react-three/drei';
+import {
+  TorusKnot,
+  MeshTransmissionMaterial,
+  ContactShadows,
+  Float,
+  Environment,
+} from '@react-three/drei';
+import * as THREE from 'three';
 
 /**
- * シンプルな3Dモデル
- * - ゆっくり回るだけ
- * - 色はサイトに合わせて調整しやすいグレー/ブルー系
+ * AbstractGlassObject
+ * - 単純な回転ではなく「浮遊」させる
+ * - 質感は不透明ではなく「光を透かすガラス」にする
  */
-function SimpleObject() {
-  const meshRef = useRef(null);
+function AbstractGlassObject({ isMobile }: { isMobile: boolean }) {
+  const meshRef = useRef<THREE.Mesh | null>(null);
 
   useFrame((state, delta) => {
-    // 毎フレーム少しずつ回転させる
     if (meshRef.current) {
-      meshRef.current.rotation.x += delta * 0.2;
-      meshRef.current.rotation.y += delta * 0.3;
+      // 複合的な回転を与えて、見る角度によって表情を変える
+      meshRef.current.rotation.x += delta * 0.1;
+      meshRef.current.rotation.y += delta * 0.2;
     }
   });
 
   return (
-    <Torus ref={meshRef} args={[1, 0.4, 16, 48]} scale={1.8}>
-      <meshStandardMaterial
-        color="#6366f1" // インディゴブルー（好みの色に変えてください）
-        roughness={0.4} // 少しツヤを抑える
-        metalness={0.6} // 金属感を足す
-      />
-    </Torus>
+    // 1. Float: 無重力のような浮遊感を与えるコンテナ
+    <Float
+      speed={isMobile ? 1.4 : 2} // 浮遊速度
+      rotationIntensity={isMobile ? 0.9 : 1.5} // 回転のゆらぎ強度
+      floatIntensity={isMobile ? 1.1 : 2} // 上下動の強度
+    >
+      {/* 2. TorusKnot: より複雑で有機的な形状に変更 */}
+      <TorusKnot
+        ref={meshRef}
+        args={[1, 0.3, 128, 16]}
+        scale={isMobile ? 0.68 : 1}
+      >
+        {/* 3. MeshTransmissionMaterial: 高度なガラス質感 */}
+        <MeshTransmissionMaterial
+          backside // 裏側の描画を有効化（奥行きが出る）
+          samples={4} // サンプリング数（画質）
+          thickness={0.5} // ガラスの厚み（屈折率に影響）
+          chromaticAberration={0.05} // 色収差（光の虹色のズレ）
+          anisotropy={0.1} // 異方性反射
+          distortion={0.5} // 像の歪み
+          distortionScale={0.5}
+          temporalDistortion={0.1}
+          iridescence={1} // 玉虫色の光沢
+          iridescenceIOR={1}
+          iridescenceThicknessRange={[0, 1400]}
+          roughness={0.1} // ツルツルにする
+          color="#a5b4fc" // 薄いインディゴ（ベース色）
+        />
+      </TorusKnot>
+    </Float>
   );
 }
 
 export default function ThreeDFeature() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)');
+    const update = () => setIsMobile(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
   return (
-    <section className="w-full h-full bg-white">
-      <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-10">
-        {/* 左側：テキストエリア */}
-        <div className="flex-1 space-y-4">
-          <h2 className="text-3xl font-bold text-gray-900">
-            3D Modeling & Design
-          </h2>
-          <p className="text-gray-600 leading-relaxed">
-            Webデザインだけでなく、3Dアセットの制作や実装も対応可能です。 React
-            Three Fiberを用いたインタラクティブな表現で、
-            ブランドに新しい奥行きを持たせることができます。
-          </p>
-          <div className="pt-2">
-            <span className="text-sm font-semibold text-indigo-600 cursor-pointer hover:underline">
-              制作事例を見る →
+    // 4. 背景色の統一: Hero/Aboutと同じ世界観へ
+    <section className="w-full h-[600px] max-md:h-auto max-md:py-16 bg-neutral-900 text-white relative overflow-hidden border-t border-white/10">
+      <div className="container mx-auto h-full max-md:h-auto px-6 max-md:px-4 flex flex-col md:flex-row items-center gap-12 max-md:gap-6">
+        {/* 左側：テキストエリア（AboutSectionと階層を合わせる） */}
+        <div className="flex-1 space-y-8 max-md:space-y-5 z-10 order-2 md:order-1">
+          <div className="space-y-4">
+            <span className="text-xs font-mono text-neutral-500 tracking-widest uppercase">
+              02 — Capabilities
             </span>
+            <h2 className="text-4xl max-md:text-2xl md:text-5xl font-light tracking-tight text-white">
+              3D Interactive
+            </h2>
+            <div className="h-px w-12 bg-white/30" />
           </div>
+
+          <p className="text-neutral-400 leading-relaxed max-md:leading-[1.85] font-light max-md:text-sm">
+            Webブラウザは、もはや「平面」のメディアではありません。
+            <br />
+            <strong className="text-white font-normal">
+              React Three Fiber
+            </strong>{' '}
+            を駆使し、光の屈折、重力、質感を感じさせる
+            「触れられるデジタル体験」を実装します。
+            <br />
+            ブランドの物語を、奥行きのある空間で語り直しましょう。
+          </p>
+
+          <button className="group flex items-center gap-3 text-sm max-md:text-xs tracking-widest text-white hover:text-blue-400 transition-colors duration-300">
+            <span className="uppercase">View Projects</span>
+            <span className="block w-8 h-px bg-white group-hover:bg-blue-400 transition-colors duration-300" />
+          </button>
         </div>
 
-        {/* 右側：3D表示エリア 
-            背景色を指定していないので、親の bg-white がそのまま透けます
-        */}
-        <div className="flex-1 w-full h-[400px] md:h-[500px] relative">
+        {/* 右側：3D表示エリア */}
+        <div className="flex-1 w-full h-full relative order-1 md:order-2 min-h-[400px] max-md:min-h-[300px] max-md:h-[320px]">
+          {/* 背景装飾（スポットライト的な効果） */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] max-md:w-[220px] h-[300px] max-md:h-[220px] bg-blue-500/20 blur-[100px] rounded-full pointer-events-none" />
+
           <Canvas
-            camera={{ position: [0, 0, 5], fov: 50 }}
-            style={{ height: '100%' }} // 追加: divの高さいっぱいに
+            camera={{
+              position: isMobile ? [0, 0.1, 9.2] : [0, 0, 6],
+              fov: isMobile ? 52 : 45,
+            }}
+            className="z-10"
           >
-            {/* ライト設定: シンプルに */}
-            <ambientLight intensity={0.7} />
-            <directionalLight position={[10, 10, 5]} intensity={1.5} />
+            {/* 環境光マップ: ガラスが反射する「景色」を作る */}
+            <Environment preset="city" />
 
-            {/* オブジェクト */}
-            <SimpleObject />
+            <AbstractGlassObject isMobile={isMobile} />
 
-            {/* 床に落ちる影（あると接地感が出て「そこに在る」感じになる） */}
+            {/* 影の表現 */}
             <ContactShadows
-              position={[0, -2, 0]}
-              opacity={0.4}
-              scale={10}
-              blur={2}
+              position={isMobile ? [0, -1.85, 0] : [0, -2.5, 0]}
+              opacity={0.5}
+              scale={isMobile ? 7.5 : 10}
+              blur={2.5}
+              far={4}
+              color="#000000"
             />
-
-            {/* ユーザーが動かせるようにする（ズームは無効化して邪魔にならないように） */}
-            <OrbitControls enableZoom={false} />
           </Canvas>
         </div>
       </div>

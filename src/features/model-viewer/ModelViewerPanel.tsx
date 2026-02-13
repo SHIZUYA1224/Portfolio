@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Scene } from './Scene';
 import type { PresetModel, ViewerSettings } from './types';
 
@@ -8,50 +8,88 @@ type Props = {
   model: PresetModel | null;
 };
 
+function ToggleChip({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`rounded-full border px-3 py-1.5 text-[11px] tracking-wide transition ${
+        active
+          ? 'border-cyan-300/70 bg-cyan-400/25 text-cyan-100'
+          : 'border-white/20 bg-black/25 text-slate-200 hover:border-white/40'
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
 export function ModelViewerPanel({ model }: Props) {
   const [settings, setSettings] = useState<ViewerSettings>({
     autoRotate: true,
     showGrid: true,
     backgroundColor: '#0b1120',
   });
+  const [popupModelId, setPopupModelId] = useState<string | null>(null);
+  const popupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (popupTimerRef.current) clearTimeout(popupTimerRef.current);
+    };
+  }, []);
 
   return (
     <div className="h-full w-full relative bg-slate-950">
-      <div className="absolute top-4 left-4 z-10 bg-black/40 px-3 py-2 rounded-md border border-white/10 text-xs text-slate-200 space-y-1">
-        <p className="font-semibold text-sm">
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(circle_at_15%_20%,rgba(14,165,233,0.16),transparent_35%),radial-gradient(circle_at_90%_85%,rgba(16,185,129,0.14),transparent_30%)]" />
+
+      <div className="absolute left-4 top-4 z-10 max-w-[360px] rounded-2xl border border-white/15 bg-black/45 px-4 py-3 text-slate-100 backdrop-blur-md">
+        <p className="text-[10px] uppercase tracking-[0.22em] text-slate-300">
+          Selected Model
+        </p>
+        <h2 className="mt-1 text-lg font-semibold leading-tight">
           {model ? model.name : 'モデルを選択してください'}
-        </p>
-        {model?.description && <p className="text-[11px]">{model.description}</p>}
-        <p className="text-[11px] opacity-80">
-          左ドラッグ: 回転 / 右ドラッグ: 平行移動 / ホイール: ズーム
-        </p>
+        </h2>
+        {model?.description && (
+          <p className="mt-2 text-xs leading-relaxed text-slate-300">
+            {model.description}
+          </p>
+        )}
+        {model && (
+          <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
+            <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-1 uppercase tracking-wide text-slate-200">
+              {model.category}
+            </span>
+            <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-1 uppercase tracking-wide text-slate-200">
+              {model.type}
+            </span>
+            <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-slate-200">
+              {model.url}
+            </span>
+          </div>
+        )}
       </div>
 
-      <div className="absolute top-4 right-4 z-10 flex items-center gap-3 bg-black/40 px-3 py-2 rounded-md border border-white/10 text-xs text-slate-200">
-        <label className="flex items-center gap-1 cursor-pointer select-none">
-          <input
-            type="checkbox"
-            checked={settings.autoRotate}
-            onChange={() =>
-              setSettings((p) => ({ ...p, autoRotate: !p.autoRotate }))
-            }
-            className="w-4 h-4"
-          />
-          自動回転
-        </label>
-        <label className="flex items-center gap-1 cursor-pointer select-none">
-          <input
-            type="checkbox"
-            checked={settings.showGrid}
-            onChange={() =>
-              setSettings((p) => ({ ...p, showGrid: !p.showGrid }))
-            }
-            className="w-4 h-4"
-          />
-          グリッド
-        </label>
-        <div className="flex items-center gap-1">
-          <span>背景</span>
+      <div className="absolute right-4 top-4 z-10 flex items-center gap-2 rounded-2xl border border-white/15 bg-black/45 px-3 py-2 backdrop-blur-md">
+        <ToggleChip
+          label="Auto Rotate"
+          active={settings.autoRotate}
+          onClick={() => setSettings((p) => ({ ...p, autoRotate: !p.autoRotate }))}
+        />
+        <ToggleChip
+          label="Grid"
+          active={settings.showGrid}
+          onClick={() => setSettings((p) => ({ ...p, showGrid: !p.showGrid }))}
+        />
+        <label className="flex items-center gap-2 rounded-full border border-white/20 bg-black/25 px-3 py-1.5 text-[11px] tracking-wide text-slate-200">
+          <span>Background</span>
           <input
             type="color"
             value={settings.backgroundColor}
@@ -61,12 +99,39 @@ export function ModelViewerPanel({ model }: Props) {
                 backgroundColor: e.target.value,
               }))
             }
-            className="w-8 h-6 rounded"
+            className="h-5 w-7 cursor-pointer rounded border-0 bg-transparent p-0"
           />
-        </div>
+        </label>
       </div>
 
-      <Scene model={model} settings={settings} />
+      <div className="absolute bottom-4 left-4 z-10 rounded-xl border border-white/15 bg-black/45 px-3 py-2 text-[11px] text-slate-200 backdrop-blur-md">
+        <p>Left drag: Rotate</p>
+        <p>Right drag: Pan</p>
+        <p>Wheel: Zoom</p>
+      </div>
+
+      {popupModelId === model?.id && model && (
+        <div
+          className="absolute left-1/2 top-5 z-20 -translate-x-1/2 rounded-full border border-cyan-300/30 bg-cyan-400/20 px-4 py-2 text-xs text-cyan-100 shadow-lg backdrop-blur-md"
+          style={{ animation: 'message-enter 260ms ease-out both' }}
+        >
+          {model.name} にフォーカスしました
+        </div>
+      )}
+
+      <Scene
+        model={model}
+        settings={settings}
+        onCameraTransitionEnd={() => {
+          if (!model) return;
+          setPopupModelId(model.id);
+          if (popupTimerRef.current) clearTimeout(popupTimerRef.current);
+          popupTimerRef.current = setTimeout(() => {
+            setPopupModelId((current) => (current === model.id ? null : current));
+            popupTimerRef.current = null;
+          }, 1700);
+        }}
+      />
     </div>
   );
 }

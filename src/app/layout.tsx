@@ -15,12 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className="bg-gray-50 text-gray-900">
+      <body className="bg-gray-50 text-gray-900 overflow-x-hidden">
         {/* ヘッダー */}
         <Header />
 
         {/* メインコンテンツ: 新規padding-top追加でHeader分の余白確保 */}
-        <main className="pt-20">{children}</main>
+        <main className="pt-20 overflow-x-hidden">{children}</main>
 
         <Footer />
       </body>

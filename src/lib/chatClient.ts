@@ -2,7 +2,12 @@ import axios, { AxiosError } from 'axios';
 import fs from 'fs/promises';
 import path from 'path';
 
-type ChatMessage = { role: string; content: string };
+export type ChatMessage = {
+  role: 'user' | 'assistant';
+  content: string;
+};
+
+type ApiChatMessage = ChatMessage | { role: 'system'; content: string };
 
 const API_URL = 'https://api.x.ai/v1/chat/completions';
 const MODEL = 'grok-4-1-fast-reasoning';
@@ -21,11 +26,11 @@ async function loadKnowledge(): Promise<string> {
 
 export async function getAiReply(messages: ChatMessage[]): Promise<string> {
   if (!process.env.GROK_API_KEY) {
-    throw new Error('GROK_API_KEY is not set');
+    throw new Error('Server configuration error');
   }
 
   const knowledge = await loadKnowledge();
-  const systemMessage = knowledge
+  const systemMessage: ApiChatMessage | null = knowledge
     ? {
         role: 'system',
         content:
@@ -34,7 +39,7 @@ export async function getAiReply(messages: ChatMessage[]): Promise<string> {
       }
     : null;
 
-  const fullMessages = systemMessage
+  const fullMessages: ApiChatMessage[] = systemMessage
     ? [systemMessage, ...messages]
     : messages;
 
@@ -51,25 +56,29 @@ export async function getAiReply(messages: ChatMessage[]): Promise<string> {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${process.env.GROK_API_KEY}`,
         },
+        timeout: 20_000,
       }
     );
 
     const reply = response.data?.choices?.[0]?.message?.content;
     if (!reply) {
-      throw new Error('AIからの返信が空でした');
+      throw new Error('Empty AI response');
     }
     return reply;
   } catch (error) {
     if (error instanceof AxiosError) {
-      const message =
+      const upstreamMessage =
         error.response?.data?.error?.message ||
         error.response?.data ||
         error.message;
-      throw new Error(message);
+      console.error('xAI upstream error:', upstreamMessage);
+      throw new Error('AI service unavailable');
     }
     if (error instanceof Error) {
-      throw error;
+      console.error('AI request failed:', error.message);
+      throw new Error('AI service unavailable');
     }
-    throw new Error('不明なエラーが発生しました');
+    console.error('Unknown AI request error');
+    throw new Error('AI service unavailable');
   }
 }
