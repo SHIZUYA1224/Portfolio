@@ -45,7 +45,7 @@ export default function InputArea({
             placeholder="メッセージを入力（Enterで送信 / Shift+Enterで改行）"
             disabled={isBusy}
             rows={1}
-            className="flex-1 resize-none bg-transparent px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed"
+            className="flex-1 resize-none bg-transparent px-3 py-2 text-base md:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed"
           />
           <button
             onClick={sendMessage}

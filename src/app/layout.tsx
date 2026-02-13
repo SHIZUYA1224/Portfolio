@@ -20,7 +20,7 @@ export default function RootLayout({
         <Header />
 
         {/* メインコンテンツ: 新規padding-top追加でHeader分の余白確保 */}
-        <main className="pt-20 overflow-x-hidden">{children}</main>
+        <main className="pt-14 md:pt-[4.25rem] overflow-x-hidden">{children}</main>
 
         <Footer />
       </body>

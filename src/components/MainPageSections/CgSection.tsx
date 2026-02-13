@@ -38,7 +38,7 @@ function AbstractGlassObject({ isMobile }: { isMobile: boolean }) {
       <TorusKnot
         ref={meshRef}
         args={[1, 0.3, 128, 16]}
-        scale={isMobile ? 0.68 : 1}
+        scale={isMobile ? 1.08 : 1}
       >
         {/* 3. MeshTransmissionMaterial: 高度なガラス質感 */}
         <MeshTransmissionMaterial
@@ -74,12 +74,12 @@ export default function ThreeDFeature() {
 
   return (
     // 4. 背景色の統一: Hero/Aboutと同じ世界観へ
-    <section className="w-full h-[600px] max-md:h-auto max-md:py-16 bg-neutral-900 text-white relative overflow-hidden border-t border-white/10">
-      <div className="container mx-auto h-full max-md:h-auto px-6 max-md:px-4 flex flex-col md:flex-row items-center gap-12 max-md:gap-6">
+    <section className="w-full h-[600px] max-md:h-auto max-md:py-10 bg-neutral-900 text-white relative overflow-hidden border-t border-white/10">
+      <div className="container mx-auto h-full max-md:h-auto px-6 max-md:px-4 flex flex-col md:flex-row items-center gap-12 max-md:gap-5">
         {/* 左側：テキストエリア（AboutSectionと階層を合わせる） */}
-        <div className="flex-1 space-y-8 max-md:space-y-5 z-10 order-2 md:order-1">
+        <div className="flex-1 space-y-8 max-md:space-y-4 z-10 order-1">
           <div className="space-y-4">
-            <span className="text-xs font-mono text-neutral-500 tracking-widest uppercase">
+            <span className="text-xs max-md:text-[11px] font-mono text-neutral-500 tracking-widest uppercase">
               02 — Capabilities
             </span>
             <h2 className="text-4xl max-md:text-2xl md:text-5xl font-light tracking-tight text-white">
@@ -88,7 +88,7 @@ export default function ThreeDFeature() {
             <div className="h-px w-12 bg-white/30" />
           </div>
 
-          <p className="text-neutral-400 leading-relaxed max-md:leading-[1.85] font-light max-md:text-sm">
+          <p className="text-neutral-400 leading-relaxed max-md:leading-[1.75] font-light max-md:text-[0.98rem]">
             Webブラウザは、もはや「平面」のメディアではありません。
             <br />
             <strong className="text-white font-normal">
@@ -100,20 +100,20 @@ export default function ThreeDFeature() {
             ブランドの物語を、奥行きのある空間で語り直しましょう。
           </p>
 
-          <button className="group flex items-center gap-3 text-sm max-md:text-xs tracking-widest text-white hover:text-blue-400 transition-colors duration-300">
+          <button className="group flex items-center gap-3 text-sm max-md:text-[11px] tracking-widest text-white hover:text-blue-400 transition-colors duration-300">
             <span className="uppercase">View Projects</span>
             <span className="block w-8 h-px bg-white group-hover:bg-blue-400 transition-colors duration-300" />
           </button>
         </div>
 
         {/* 右側：3D表示エリア */}
-        <div className="flex-1 w-full h-full relative order-1 md:order-2 min-h-[400px] max-md:min-h-[300px] max-md:h-[320px]">
+        <div className="flex-1 w-full h-full relative order-2 md:order-2 min-h-[400px] max-md:min-h-[220px] max-md:h-[230px]">
           {/* 背景装飾（スポットライト的な効果） */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] max-md:w-[220px] h-[300px] max-md:h-[220px] bg-blue-500/20 blur-[100px] rounded-full pointer-events-none" />
 
           <Canvas
             camera={{
-              position: isMobile ? [0, 0.1, 9.2] : [0, 0, 6],
+              position: isMobile ? [0, 0.02, 6.9] : [0, 0, 6],
               fov: isMobile ? 52 : 45,
             }}
             className="z-10"

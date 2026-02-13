@@ -107,17 +107,19 @@ export function Scene({
 }: SceneProps) {
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
   const initialPreset = model?.cameraPreset ?? DEFAULT_CAMERA_PRESET;
+  const isMobile =
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
 
   return (
     <Canvas
-      shadows
-      dpr={[1, 2]}
-      gl={{ antialias: true, powerPreference: 'high-performance' }}
+      shadows={!isMobile}
+      dpr={isMobile ? [1, 1.5] : [1, 2]}
+      gl={{ antialias: true, powerPreference: isMobile ? 'default' : 'high-performance' }}
       onCreated={({ gl }) => {
-        gl.shadowMap.enabled = true;
+        gl.shadowMap.enabled = !isMobile;
         gl.shadowMap.type = THREE.PCFSoftShadowMap;
       }}
-      camera={{ position: initialPreset.position, fov: 46 }}
+      camera={{ position: initialPreset.position, fov: isMobile ? 50 : 46 }}
       style={{ background: settings.backgroundColor }}
     >
       <Lighting />

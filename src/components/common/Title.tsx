@@ -10,7 +10,7 @@ export default function Title({ text }: TitleProps) {
       <h1 
         className="
           relative z-10
-          text-6xl md:text-8xl font-black tracking-tighter text-neutral-900
+          text-5xl md:text-8xl font-black tracking-tighter text-neutral-900
         "
       >
         {text}

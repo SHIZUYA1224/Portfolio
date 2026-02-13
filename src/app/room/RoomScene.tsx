@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { EffectComposer, Outline } from '@react-three/postprocessing';
@@ -20,20 +20,28 @@ export default function RoomScene({
   onModelReady,
 }: RoomSceneProps) {
   const [hoveredNodes, setHoveredNodes] = useState<THREE.Object3D[]>([]);
+  const isMobile = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(max-width: 768px)').matches,
+    []
+  );
 
   return (
     <Canvas
       className="absolute inset-0"
       style={{ width: '100%', height: '100%' }}
-      shadows
+      shadows={!isMobile}
+      dpr={isMobile ? [1, 1.25] : [1, 2]}
+      gl={{ antialias: !isMobile, powerPreference: isMobile ? 'default' : 'high-performance' }}
       camera={{ position: [0, 3, 5], fov: 80 }} // カメラの初期位置を設定
     >
       <ambientLight intensity={0.6} />
       <directionalLight
         position={[5, 10, 5]}
-        intensity={3}
-        castShadow
-        shadow-mapSize={[8192, 8192]} // 影の解像度を高く設定（ギザギザを軽減）
+        intensity={isMobile ? 2.2 : 3}
+        castShadow={!isMobile}
+        shadow-mapSize={isMobile ? [1024, 1024] : [2048, 2048]}
         shadow-camera-near={0.1}
         shadow-camera-far={50}
         shadow-camera-left={-30} // 範囲を広げて影の品質を向上
@@ -59,17 +67,19 @@ export default function RoomScene({
         minDistance={0} // カメラの最小距離を設定
         maxDistance={10} // カメラの最大距離を設定
       />
-      <EffectComposer autoClear={false}>
-        <Outline
-          selection={hoveredNodes}
-          edgeStrength={12}
-          pulseSpeed={0.45}
-          visibleEdgeColor={0xffffff}
-          hiddenEdgeColor={0x22d3ee}
-          blur
-          xRay
-        />
-      </EffectComposer>
+      {!isMobile && (
+        <EffectComposer autoClear={false}>
+          <Outline
+            selection={hoveredNodes}
+            edgeStrength={12}
+            pulseSpeed={0.45}
+            visibleEdgeColor={0xffffff}
+            hiddenEdgeColor={0x22d3ee}
+            blur
+            xRay
+          />
+        </EffectComposer>
+      )}
     </Canvas>
   );
 }

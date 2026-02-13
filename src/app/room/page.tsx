@@ -16,7 +16,7 @@ export default function Room() {
   const handleClose = () => setSelectedModel(null);
 
   return (
-    <main className="fixed inset-x-0 bottom-0 top-20 overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-black text-white">
+    <main className="fixed inset-x-0 bottom-0 top-14 md:top-[4.25rem] overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-black text-white">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.15),transparent_35%),radial-gradient(circle_at_80%_10%,rgba(16,185,129,0.15),transparent_30%)]" />
 
       <div className="absolute bottom-3 left-3 md:bottom-6 md:left-6 z-10 bg-black/50 backdrop-blur-md text-[11px] md:text-xs text-slate-200 px-3 py-2 rounded-lg border border-white/10">

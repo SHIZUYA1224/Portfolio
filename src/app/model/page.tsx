@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
+import { Menu, X } from 'lucide-react';
 import {
   MODEL_LIBRARY,
   MODEL_PAGE_CONFIG,
@@ -14,6 +15,7 @@ export default function ModelPage() {
   const [selected, setSelected] = useState<PresetModel | null>(
     MODEL_LIBRARY[0] ?? null
   );
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const characters = useMemo(() => getModelsByCategory('character'), []);
   const objects = useMemo(() => getModelsByCategory('object'), []);
@@ -21,7 +23,10 @@ export default function ModelPage() {
   const renderCard = (model: PresetModel) => (
     <button
       key={model.id}
-      onClick={() => setSelected(model)}
+      onClick={() => {
+        setSelected(model);
+        setMobileMenuOpen(false);
+      }}
       className={`group relative flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition ${
         selected?.id === model.id
           ? 'border-cyan-300/70 bg-cyan-400/15'
@@ -67,9 +72,9 @@ export default function ModelPage() {
   );
 
   return (
-    <main className="fixed inset-x-0 bottom-0 top-20 overflow-hidden bg-[linear-gradient(145deg,#020617_0%,#0b1120_55%,#0f172a_100%)] text-white">
+    <main className="fixed inset-x-0 bottom-0 top-14 md:top-[4.25rem] overflow-hidden bg-[linear-gradient(145deg,#020617_0%,#0b1120_55%,#0f172a_100%)] text-white">
       <div className="grid h-full grid-cols-1 xl:grid-cols-[360px_1fr]">
-        <aside className="relative h-full overflow-y-auto border-r border-white/10 bg-black/35 backdrop-blur-xl p-4 md:p-5">
+        <aside className="relative hidden xl:block h-full overflow-y-auto border-r border-white/10 bg-black/35 backdrop-blur-xl p-4 md:p-5">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(34,211,238,0.14),transparent_36%),radial-gradient(circle_at_100%_100%,rgba(56,189,248,0.10),transparent_34%)]" />
           <div className="relative space-y-6">
             <div className="space-y-2">
@@ -124,9 +129,87 @@ export default function ModelPage() {
         </aside>
 
         <section className="relative h-full">
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            className="xl:hidden absolute left-3 top-3 z-30 inline-flex items-center gap-2 rounded-xl border border-white/20 bg-black/55 px-3 py-2 text-xs font-medium tracking-[0.08em] text-white backdrop-blur-md"
+          >
+            <Menu size={16} />
+            MODELS
+          </button>
+
           <ModelViewerPanel model={selected} />
         </section>
       </div>
+
+      {mobileMenuOpen && (
+        <div className="xl:hidden absolute inset-0 z-40 flex">
+          <button
+            type="button"
+            aria-label="Close model menu"
+            onClick={() => setMobileMenuOpen(false)}
+            className="h-full flex-1 bg-black/55"
+          />
+          <aside className="relative h-full w-[min(86vw,360px)] overflow-y-auto border-l border-white/10 bg-[#030712]/95 p-4 backdrop-blur-xl">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white"
+            >
+              <X size={16} />
+            </button>
+
+            <div className="space-y-2 pr-10">
+              <p className="text-[10px] uppercase tracking-[0.26em] text-cyan-200/80">
+                3D Collection
+              </p>
+              <h1 className="text-xl font-semibold leading-tight">
+                {MODEL_PAGE_CONFIG.title}
+              </h1>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {MODEL_PAGE_CONFIG.subtitle}
+              </p>
+            </div>
+
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-slate-400">
+                  Characters
+                </p>
+                <p className="mt-1 text-lg font-semibold text-white">
+                  {characters.length}
+                </p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-slate-400">
+                  Objects
+                </p>
+                <p className="mt-1 text-lg font-semibold text-white">
+                  {objects.length}
+                </p>
+              </div>
+            </div>
+
+            {characters.length > 0 && (
+              <div className="mt-5 space-y-3">
+                <h2 className="text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  {MODEL_PAGE_CONFIG.categoryLabel.character}
+                </h2>
+                <div className="space-y-2">{characters.map(renderCard)}</div>
+              </div>
+            )}
+
+            {objects.length > 0 && (
+              <div className="mt-6 space-y-3 pb-5">
+                <h2 className="text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                  {MODEL_PAGE_CONFIG.categoryLabel.object}
+                </h2>
+                <div className="space-y-2">{objects.map(renderCard)}</div>
+              </div>
+            )}
+          </aside>
+        </div>
+      )}
     </main>
   );
 }

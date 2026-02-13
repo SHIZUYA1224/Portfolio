@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { Sparkles } from 'lucide-react';
 import Message from './Message';
 import type { ChatMessage } from '@/features/chat/types';
 
@@ -19,21 +18,7 @@ export default function MessageList({ messages, isThinking = false }: Props) {
   }, [messages, isThinking]);
 
   if (messages.length === 0) {
-    return (
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="max-w-xl w-full rounded-3xl border border-white/20 bg-white/60 backdrop-blur-xl shadow-xl px-6 py-8 text-center">
-          <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-cyan-500/20 text-cyan-700">
-            <Sparkles size={22} />
-          </div>
-          <p className="mt-4 text-xl font-semibold text-slate-900">
-            AI Tuber Chat
-          </p>
-          <p className="mt-2 text-sm text-slate-600">
-            作品、技術スタック、制作背景など何でも質問してください。
-          </p>
-        </div>
-      </div>
-    );
+    return <div className="flex-1" />;
   }
 
   return (

@@ -50,7 +50,7 @@ export function ModelViewerPanel({ model }: Props) {
     <div className="h-full w-full relative bg-slate-950">
       <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(circle_at_15%_20%,rgba(14,165,233,0.16),transparent_35%),radial-gradient(circle_at_90%_85%,rgba(16,185,129,0.14),transparent_30%)]" />
 
-      <div className="absolute left-4 top-4 z-10 max-w-[360px] rounded-2xl border border-white/15 bg-black/45 px-4 py-3 text-slate-100 backdrop-blur-md">
+      <div className="hidden md:block absolute left-4 top-4 z-10 max-w-[360px] rounded-2xl border border-white/15 bg-black/45 px-4 py-3 text-slate-100 backdrop-blur-md">
         <p className="text-[10px] uppercase tracking-[0.22em] text-slate-300">
           Selected Model
         </p>
@@ -77,7 +77,7 @@ export function ModelViewerPanel({ model }: Props) {
         )}
       </div>
 
-      <div className="absolute right-4 top-4 z-10 flex items-center gap-2 rounded-2xl border border-white/15 bg-black/45 px-3 py-2 backdrop-blur-md">
+      <div className="hidden md:flex absolute right-4 top-4 z-10 items-center gap-2 rounded-2xl border border-white/15 bg-black/45 px-3 py-2 backdrop-blur-md">
         <ToggleChip
           label="Auto Rotate"
           active={settings.autoRotate}
@@ -104,10 +104,27 @@ export function ModelViewerPanel({ model }: Props) {
         </label>
       </div>
 
-      <div className="absolute bottom-4 left-4 z-10 rounded-xl border border-white/15 bg-black/45 px-3 py-2 text-[11px] text-slate-200 backdrop-blur-md">
+      <div className="hidden md:block absolute bottom-4 left-4 z-10 rounded-xl border border-white/15 bg-black/45 px-3 py-2 text-[11px] text-slate-200 backdrop-blur-md">
         <p>Left drag: Rotate</p>
         <p>Right drag: Pan</p>
         <p>Wheel: Zoom</p>
+      </div>
+
+      <div className="md:hidden absolute left-1/2 top-3 z-20 -translate-x-1/2 rounded-full border border-white/20 bg-black/55 px-3 py-1.5 text-[11px] text-slate-100 backdrop-blur-md max-w-[86vw] truncate">
+        {model ? model.name : 'Select Model'}
+      </div>
+
+      <div className="md:hidden absolute right-3 bottom-3 z-20 flex items-center gap-2 rounded-xl border border-white/20 bg-black/55 px-2 py-2 backdrop-blur-md">
+        <ToggleChip
+          label="Auto"
+          active={settings.autoRotate}
+          onClick={() => setSettings((p) => ({ ...p, autoRotate: !p.autoRotate }))}
+        />
+        <ToggleChip
+          label="Grid"
+          active={settings.showGrid}
+          onClick={() => setSettings((p) => ({ ...p, showGrid: !p.showGrid }))}
+        />
       </div>
 
       {popupModelId === model?.id && model && (
