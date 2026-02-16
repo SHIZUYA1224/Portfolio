@@ -65,3 +65,4 @@ next-env.d.ts
 
 # knowledgeファイル
 src/app/api/aichat/knowledge.txt
+!src/app/api/aichat/knowledge.txt
