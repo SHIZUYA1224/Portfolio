@@ -9,6 +9,11 @@ import {
   Volume2,
   Disc,
 } from 'lucide-react'; // アイコン用
+import { TRACKS } from '@/features/music';
+import {
+  FEATURED_TRACK_ID,
+  FEATURED_TRACK_SUBTITLE,
+} from '@/features/music/config';
 
 export default function MusicSection() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -17,9 +22,16 @@ export default function MusicSection() {
   const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const featuredTrack =
+    TRACKS.find((track) => track.id === FEATURED_TRACK_ID) ?? TRACKS[0];
+  const featuredAudioUrl = featuredTrack?.audioUrl ?? '';
+  const featuredTitle = featuredTrack?.title ?? '';
+  const featuredCoverUrl = featuredTrack?.coverUrl ?? '/covers/artwork.jpg';
 
   useEffect(() => {
-    const audio = new Audio(encodeURI('/music/AVAVA.wav'));
+    if (!featuredAudioUrl) return;
+
+    const audio = new Audio(encodeURI(featuredAudioUrl));
     audioRef.current = audio;
     audio.preload = 'metadata';
 
@@ -39,7 +51,7 @@ export default function MusicSection() {
       audio.removeEventListener('ended', handleEnded);
       audioRef.current = null;
     };
-  }, []);
+  }, [featuredAudioUrl]);
 
   const togglePlay = async () => {
     const audio = audioRef.current;
@@ -148,8 +160,8 @@ export default function MusicSection() {
             {/* アルバムアート部分 */}
             <div className="relative aspect-[1/0.92] md:aspect-square w-full bg-neutral-800/50 rounded-2xl mb-8 max-md:mb-3 overflow-hidden shadow-inner flex items-center justify-center">
               <Image
-                src="/covers/artwork.jpg"
-                alt="Art Work cover"
+                src={featuredCoverUrl}
+                alt={`${featuredTitle} cover`}
                 fill
                 sizes="(max-width: 768px) 90vw, 400px"
                 className={`object-cover transition-transform duration-700 ${
@@ -173,10 +185,10 @@ export default function MusicSection() {
               {/* 楽曲情報オーバーレイ */}
               <div className="absolute bottom-4 left-4 max-md:bottom-3 max-md:left-3">
                 <p className="text-white text-lg max-md:text-base font-medium">
-                  AVAVA
+                  {featuredTitle}
                 </p>
                 <p className="text-neutral-400 text-xs max-md:text-[11px] uppercase tracking-wider">
-                  Original Soundtrack
+                  {FEATURED_TRACK_SUBTITLE}
                 </p>
               </div>
             </div>

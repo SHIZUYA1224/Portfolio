@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { SITE_DESCRIPTION, SITE_TITLE } from '@/config';
 
 export const metadata: Metadata = {
-  title: 'SHIZUYA Portfolio',
-  description: '3D Interactive Self-Introduction Site',
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
 };
 
 export default function RootLayout({

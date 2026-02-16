@@ -9,6 +9,7 @@ import {
   ArrowUpRight,
   ArrowRight,
 } from 'lucide-react';
+import { SITE_TITLE } from '@/config';
 
 export default function ContactSection() {
   // 現在の年を取得（フッターのCopyright用）
@@ -110,7 +111,7 @@ export default function ContactSection() {
 
         {/* 3. フッター情報: サイトの接地（Grounding） */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 max-md:gap-2 text-xs max-md:text-[11px] text-neutral-500">
-          <p>© {currentYear} SHIZUYA Portfolio. All Rights Reserved.</p>
+          <p>© {currentYear} {SITE_TITLE}. All Rights Reserved.</p>
           <div className="flex gap-6">
             <span className="cursor-pointer hover:text-white transition-colors">
               Privacy Policy

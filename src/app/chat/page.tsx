@@ -24,7 +24,10 @@ export default function Chat() {
     if (!normalizedInput || isSending || isStreaming) return;
 
     setIsSending(true);
-    const newMessages = [...messages, { role: 'user', content: normalizedInput }];
+    const newMessages: ChatMessage[] = [
+      ...messages,
+      { role: 'user', content: normalizedInput },
+    ];
     setMessages(newMessages);
     setInput('');
 

@@ -48,7 +48,7 @@ export default function RoomScene({
         shadow-camera-right={30}
         shadow-camera-top={30}
         shadow-camera-bottom={-30}
-        shadowBias={-0.0001} // 影のバイアスを追加してギザギザを軽減
+        shadow-bias={-0.0001} // 影のバイアスを追加してギザギザを軽減
         shadow-radius={2} // 影をソフトにする（ギザギザを軽減）
         shadow-normalBias={0.02} // 法線バイアスを追加して品質向上
       />

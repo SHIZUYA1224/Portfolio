@@ -6,6 +6,14 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { VRMLoaderPlugin, VRM, VRMUtils } from '@pixiv/three-vrm';
 import * as THREE from 'three';
 
+type BaseTransform = {
+  position: THREE.Vector3;
+  quaternion: THREE.Quaternion;
+  scale: THREE.Vector3;
+};
+
+const vrmBaseTransformMap = new WeakMap<THREE.Object3D, BaseTransform>();
+
 interface VrmModelProps {
   url: string;
   onLoad?: () => void;
@@ -34,6 +42,19 @@ export function VrmModel({ url, onLoad, onError }: VrmModelProps) {
 
         vrmData.humanoid?.resetNormalizedPose();
 
+        let baseTransform = vrmBaseTransformMap.get(vrmData.scene);
+        if (!baseTransform) {
+          baseTransform = {
+            position: vrmData.scene.position.clone(),
+            quaternion: vrmData.scene.quaternion.clone(),
+            scale: vrmData.scene.scale.clone(),
+          };
+          vrmBaseTransformMap.set(vrmData.scene, baseTransform);
+        }
+        vrmData.scene.position.copy(baseTransform.position);
+        vrmData.scene.quaternion.copy(baseTransform.quaternion);
+        vrmData.scene.scale.copy(baseTransform.scale);
+
         const box = new THREE.Box3().setFromObject(vrmData.scene);
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z) || 1;
@@ -57,12 +78,8 @@ export function VrmModel({ url, onLoad, onError }: VrmModelProps) {
 
     loadVrm();
 
-    return () => {
-      if (vrm) {
-        VRMUtils.deepDispose(vrm.scene);
-      }
-    };
-  }, [gltf, onLoad, onError, vrm]);
+    return undefined;
+  }, [gltf, onLoad, onError]);
 
   useFrame((_, delta) => {
     vrm?.update(delta);

@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useRef, type RefObject } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Environment, Grid, Center } from '@react-three/drei';
+import { Environment, Grid } from '@react-three/drei';
 import * as THREE from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { Lighting } from './Lighting';
@@ -142,14 +142,14 @@ export function Scene({
       )}
 
       <Suspense fallback={<Loader />}>
-        <Center>
+        <group key={model?.id ?? 'no-model'}>
           {model?.type === 'gltf' && (
             <GltfModel url={model.url} onLoad={onModelLoad} onError={onModelError} />
           )}
           {model?.type === 'vrm' && (
             <VrmModel url={model.url} onLoad={onModelLoad} onError={onModelError} />
           )}
-        </Center>
+        </group>
       </Suspense>
 
       <CameraControls

@@ -31,8 +31,8 @@ export const MODEL_LIBRARY: PresetModel[] = [
       'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
   },
   {
-    id: 'MODEL_A',
-    name: 'Model A',
+    id: 'MODEL_B',
+    name: 'Model B',
     url: '/models/GLB.glb',
     type: 'gltf',
     category: 'character',

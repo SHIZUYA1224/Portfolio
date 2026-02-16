@@ -3,14 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-
-const NAV_ITEMS = [
-  { href: '/', label: 'HOME' },
-  { href: '/room', label: 'ROOM' },
-  { href: '/chat', label: 'CHAT' },
-  { href: '/music', label: 'MUSIC' },
-  { href: '/model', label: 'MODEL' },
-] as const;
+import { MAIN_NAV_ITEMS, SITE_BRAND_LABEL } from '@/config';
 
 export default function Header() {
   const pathname = usePathname();
@@ -35,7 +28,7 @@ export default function Header() {
     >
       <nav className="relative container mx-auto h-14 md:h-[4.25rem] px-3 md:px-6 flex items-center justify-center md:justify-start gap-2 md:gap-4">
         <Link href="/" className="text-white font-semibold text-[18px] md:text-[1.2rem] tracking-tight whitespace-nowrap shrink-0">
-          PORTFOLIO
+          {SITE_BRAND_LABEL}
         </Link>
 
         <button
@@ -49,7 +42,7 @@ export default function Header() {
         </button>
 
         <ul className="hidden md:flex space-x-5 lg:space-x-6 items-center ml-auto">
-          {NAV_ITEMS.map((item) => (
+          {MAIN_NAV_ITEMS.map((item) => (
             <li key={item.href}>
               <Link href={item.href} className={`${desktopLinkClass} ${isActive(item.href) ? desktopActiveClass : ''}`}>
                 {item.label}
@@ -83,7 +76,7 @@ export default function Header() {
           </button>
         </div>
         <ul className="space-y-2">
-          {NAV_ITEMS.map((item) => (
+          {MAIN_NAV_ITEMS.map((item) => (
             <li key={`mobile-${item.href}`}>
               <Link
                 href={item.href}

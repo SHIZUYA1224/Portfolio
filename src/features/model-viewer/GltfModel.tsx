@@ -5,6 +5,14 @@ import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
+type BaseTransform = {
+  position: THREE.Vector3;
+  quaternion: THREE.Quaternion;
+  scale: THREE.Vector3;
+};
+
+const gltfBaseTransformMap = new WeakMap<THREE.Object3D, BaseTransform>();
+
 interface GltfModelProps {
   url: string;
   onLoad?: () => void;
@@ -25,15 +33,29 @@ export function GltfModel({ url, onLoad, onError }: GltfModelProps) {
   useEffect(() => {
     if (!scene) return;
 
+    let baseTransform = gltfBaseTransformMap.get(scene);
+    if (!baseTransform) {
+      baseTransform = {
+        position: scene.position.clone(),
+        quaternion: scene.quaternion.clone(),
+        scale: scene.scale.clone(),
+      };
+      gltfBaseTransformMap.set(scene, baseTransform);
+    }
+    scene.position.copy(baseTransform.position);
+    scene.quaternion.copy(baseTransform.quaternion);
+    scene.scale.copy(baseTransform.scale);
+
     const box = new THREE.Box3().setFromObject(scene);
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());
 
     const maxDim = Math.max(size.x, size.y, size.z) || 1;
     const scale = 2 / maxDim;
+    const floorY = -box.min.y * scale;
 
     scene.scale.setScalar(scale);
-    scene.position.sub(center.multiplyScalar(scale));
+    scene.position.set(-center.x * scale, floorY, -center.z * scale);
 
     scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
