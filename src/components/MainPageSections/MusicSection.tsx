@@ -19,7 +19,7 @@ export default function MusicSection() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const audio = new Audio(encodeURI('/music/目覚め.mp3'));
+    const audio = new Audio(encodeURI('/music/AVAVA.wav'));
     audioRef.current = audio;
     audio.preload = 'metadata';
 
@@ -173,7 +173,7 @@ export default function MusicSection() {
               {/* 楽曲情報オーバーレイ */}
               <div className="absolute bottom-4 left-4 max-md:bottom-3 max-md:left-3">
                 <p className="text-white text-lg max-md:text-base font-medium">
-                  目覚め
+                  AVAVA
                 </p>
                 <p className="text-neutral-400 text-xs max-md:text-[11px] uppercase tracking-wider">
                   Original Soundtrack
