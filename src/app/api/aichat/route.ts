@@ -126,6 +126,9 @@ export async function POST(request: NextRequest) {
     if (error instanceof Error && error.message.startsWith('INVALID_')) {
       return json({ error: 'Invalid request body' }, 400);
     }
+    if (error instanceof Error && error.message === 'Server configuration error') {
+      return json({ error: 'GROK_API_KEY is not configured on the server' }, 500);
+    }
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('xAI API Error:', message);
     return json({ error: 'Internal server error' }, 500);

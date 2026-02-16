@@ -17,7 +17,7 @@ export default function HeroSection() {
         />
         {/* 3. フィルターレイヤー: グラーデーションとノイズで「質感」を作る */}
         <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/40 to-transparent" />
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.06),transparent_45%)] opacity-40 mix-blend-overlay pointer-events-none" />
       </div>
 
       {/* 4. コンテンツレイヤー: グリッドレイアウトによる現代的な配置 */}
