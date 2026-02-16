@@ -11,17 +11,23 @@ type ApiChatMessage = ChatMessage | { role: 'system'; content: string };
 
 const API_URL = 'https://api.x.ai/v1/chat/completions';
 const MODEL = 'grok-4-1-fast-reasoning';
-const KNOWLEDGE_PATH = path.join(
-  process.cwd(),
-  'src/app/api/aichat/knowledge.txt'
-);
+const KNOWLEDGE_PATH_CANDIDATES = [
+  path.join(process.cwd(), 'public/knowledge.txt'),
+  path.join(process.cwd(), 'src/app/api/aichat/knowledge.txt'),
+];
 
 async function loadKnowledge(): Promise<string> {
-  try {
-    return await fs.readFile(KNOWLEDGE_PATH, 'utf-8');
-  } catch {
-    return '';
+  for (const candidate of KNOWLEDGE_PATH_CANDIDATES) {
+    try {
+      const text = await fs.readFile(candidate, 'utf-8');
+      if (text.trim().length > 0) {
+        return text;
+      }
+    } catch {
+      // try next candidate
+    }
   }
+  return '';
 }
 
 export async function getAiReply(messages: ChatMessage[]): Promise<string> {
@@ -30,6 +36,7 @@ export async function getAiReply(messages: ChatMessage[]): Promise<string> {
   }
 
   const knowledge = await loadKnowledge();
+  console.log('[chat] knowledge loaded chars:', knowledge.length);
   const systemMessage: ApiChatMessage | null = knowledge
     ? {
         role: 'system',
