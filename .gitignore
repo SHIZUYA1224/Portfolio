@@ -27,6 +27,22 @@
 *.aac
 /build
 
+# keep public media assets in git (required for Next.js static serving)
+!public/**/*.glb
+!public/**/*.vrm
+!public/**/*.mp3
+!public/**/*.wav
+!public/**/*.m4a
+!public/**/*.flac
+!public/**/*.ogg
+!public/**/*.aac
+!public/**/*.mp4
+!public/**/*.jpg
+!public/**/*.jpeg
+!public/**/*.png
+!public/**/*.gif
+!public/**/*.svg
+
 # misc
 .DS_Store
 *.pem
