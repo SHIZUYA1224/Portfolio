@@ -96,7 +96,7 @@ export default function MusicSection() {
 
   return (
     // 1. セクション構造: 動画を背景にした没入空間
-    <section className="relative w-full py-28 max-md:py-10 overflow-hidden bg-neutral-900 border-t border-white/10">
+    <section className="section-animate relative w-full md:h-[640px] max-md:h-auto py-16 md:py-0 max-md:py-10 overflow-hidden bg-neutral-900 border-t border-white/10">
       {/* 2. 背景動画レイヤー: 視覚的なノイズとしての映像 */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10" />{' '}
@@ -116,9 +116,9 @@ export default function MusicSection() {
         </video>
       </div>
 
-      <div className="container relative z-20 mx-auto px-6 max-md:px-4 grid grid-cols-1 md:grid-cols-12 gap-12 max-md:gap-5 items-center">
+      <div className="max-w-7xl h-full relative z-20 mx-auto px-6 max-md:px-4 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 max-md:gap-5 items-center">
         {/* 左側: テキスト情報 (Context) */}
-        <div className="md:col-span-5 flex flex-col space-y-8 max-md:space-y-5">
+        <div className="md:col-span-5 md:col-start-8 md:pl-6 flex flex-col space-y-8 max-md:space-y-5">
           <div className="space-y-4">
             <span className="text-xs font-mono text-indigo-400 tracking-widest uppercase">
               03 — Sound Production
@@ -129,16 +129,12 @@ export default function MusicSection() {
             <div className="h-px w-12 bg-indigo-500" />
           </div>
 
-          <p className="text-neutral-300 leading-relaxed max-md:leading-[1.8] font-light max-md:text-[0.95rem]">
-            オリジナル楽曲を、すぐに試聴できる形で整理。
+          <p className="text-neutral-300 leading-[1.95] max-md:leading-[1.8] font-light text-[1.03rem] max-md:text-[0.95rem] max-w-[34ch]">
+            自作楽曲をWebプレイヤーと統合し、
             <br />
-            ジャンルごとに雰囲気を切り替えながら、
-            モバイルでも快適に再生できます。
+            ブラウザ上で再生できるよう実装しています。
             <br />
-            <span className="text-white font-normal">
-              「聴けるポートフォリオ」
-            </span>
-            として設計しています。
+            音楽とUIの両面から改善を続けています。
           </p>
 
           <Link
@@ -151,9 +147,9 @@ export default function MusicSection() {
         </div>
 
         {/* 右側: プレイヤーUI (Interface) - グラスモーフィズム */}
-        <div className="md:col-span-7 flex justify-center md:justify-end">
+        <div className="md:col-span-7 md:col-start-1 md:row-start-1 flex justify-center md:justify-start md:pl-4">
           {/* ガラスのカード */}
-          <div className="w-full max-w-[360px] md:max-w-md bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl max-md:rounded-2xl p-8 max-md:p-3.5 shadow-xl relative overflow-hidden group">
+          <div className="w-full max-w-[350px] md:max-w-[420px] bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl max-md:rounded-2xl p-7 md:p-7 max-md:p-3.5 shadow-xl relative overflow-hidden group">
             {/* 背景の光沢エフェクト */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 rounded-full blur-[50px] pointer-events-none" />
 

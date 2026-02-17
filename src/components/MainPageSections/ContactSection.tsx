@@ -17,7 +17,7 @@ export default function ContactSection() {
 
   return (
     // 1. セクション基盤: サイトの「最下層」としての深淵な黒
-    <footer className="relative w-full pt-32 max-md:pt-16 pb-12 max-md:pb-8 bg-neutral-950 text-white overflow-hidden">
+    <footer className="section-animate relative w-full pt-32 max-md:pt-16 pb-12 max-md:pb-8 bg-neutral-950 text-white overflow-hidden">
       {/* 背景装飾: 巨大なタイポグラフィで空間を埋める */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden select-none">
         <span className="absolute -top-[10%] -left-[10%] text-[20vw] max-md:text-[28vw] font-bold text-neutral-900/50 leading-none tracking-tighter">

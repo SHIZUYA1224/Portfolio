@@ -3,7 +3,7 @@ import React from 'react';
 export default function AboutSection() {
   return (
     // 1. セクション基盤: ダークテーマを継承し、余白を大きく取る
-    <section className="relative w-full overflow-x-hidden bg-neutral-900 text-neutral-200 py-32 max-md:py-12 px-6 max-md:px-4 md:px-12 border-t border-white/10">
+    <section className="section-animate relative w-full overflow-x-hidden bg-neutral-900 text-neutral-200 py-32 max-md:py-12 px-6 max-md:px-4 md:px-12 border-t border-white/10">
       {/* 2. グリッドレイアウト: 左側に「見出し」、右側に「本文」の非対称構成 */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 max-md:gap-5 md:gap-24">
         {/* 3. スティッキーヘッダー: スクロールしても左側に残り続ける見出し */}
@@ -25,16 +25,15 @@ export default function AboutSection() {
           {/* リード文: 最も重要なメッセージ */}
           <div className="space-y-8 max-md:space-y-3">
             <p className="text-xl max-md:text-[1.05rem] md:text-2xl max-md:leading-[1.8] leading-relaxed font-light text-white/90 break-words">
-              はじめまして、SHIZUYA です。
+              はじめまして、SHIZUYAです。
               <br />
-              3D・音楽・AI・ネットワーク、
-              <br className="hidden lg:block" />
-              異なる領域をコードで編み上げる
+              3D・音楽・AI・ネットワーク。
               <br />
-              <span className="inline max-md:[overflow-wrap:anywhere] border-b border-white/40 pb-1 mt-2 hover:border-blue-400 hover:text-blue-400 transition-colors duration-300 cursor-default">
-                「Multi-Modal Creator」
-              </span>
-              です。
+              異なる分野を横断しながら、
+              <br />
+              コードでつなぐ実験的な制作を続けています。
+              <br />
+              「Multi-Modal Creator」を目指しています。
             </p>
           </div>
 
@@ -45,13 +44,13 @@ export default function AboutSection() {
                 The Concept
               </h3>
               <p className="max-md:text-[0.98rem]">
-                Three.js / React / Next.js を駆使し、
+                Three.js / React / Next.js を軸に、
                 <strong className="text-neutral-200 font-normal">
                   「見るだけでなく触れるプロフィール」
                 </strong>
-                をテーマに開発しています。VRM モデルの表示、AI
-                チャット、音声再生など、
-                静的なWebサイトを「体験する空間」へと拡張します。
+                を少しずつ形にしています。VRM
+                モデルの表示、AIチャット、音声再生などを組み合わせながら、
+                静的なWebサイトを「体験できる空間」に近づけることを目標にしています。
               </p>
             </div>
 
@@ -60,13 +59,14 @@ export default function AboutSection() {
                 The Stack
               </h3>
               <p className="max-md:text-[0.98rem]">
-                フロントエンド・Unity・FastAPI・音楽制作。
-                これら多分野を横断（Cross-Modal）することで、
-                技術の境界線に新しい表現を見出します。 現在は3D空間を起点とした
+                現在はフロントエンド（Next.js /
+                React）を中心に、3D表現（Three.js /
+                R3F）、必要に応じてUnity・FastAPI・音楽制作も取り入れています。
+                まだ試行錯誤の段階ですが、分野をまたぎながら、3D空間を起点にした
                 <strong className="text-neutral-200 font-normal">
                   “次世代の自己紹介”
                 </strong>
-                を模索中です。
+                の可能性を探っています。
               </p>
             </div>
           </div>

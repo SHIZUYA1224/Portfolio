@@ -4,11 +4,11 @@ import Title from '../common/Title';
 export default function HeroSection() {
   return (
     // 1. 基盤構造: 画面一杯の高さ(h-screen)と、背景色によるベース設定
-    <section className="relative h-screen max-md:h-[82svh] w-full overflow-hidden bg-neutral-900 text-white">
+    <section className="section-animate relative h-screen max-md:h-[82svh] w-full overflow-hidden bg-neutral-900 text-white">
       {/* 2. 背景画像レイヤー: スケールアニメーションと明度調整 */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80"
+          src="/HERO.png"
           alt="Abstract Architecture"
           fill
           priority
@@ -28,7 +28,7 @@ export default function HeroSection() {
             <div className="animate-slide-up">
               {/* 既存コンポーネントを大きく使う */}
               <div className="transform scale-150 max-md:scale-[0.92] origin-bottom-left md:scale-100">
-                <Title text="Simple is Best" />
+                <Title text="SHIZUYA KUBOTA" className="text-white" />
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@ export default function HeroSection() {
         {/* 右側: 装飾・メタデータ（アーティスティックな非対称性） */}
         <div className="hidden md:flex md:col-span-4 justify-end items-end flex-col space-y-4 opacity-70">
           <span className="text-xs tracking-[0.3em] uppercase rotate-90 origin-bottom-right translate-x-4">
-            Portfolio 2025
+            Portfolio 2026
           </span>
           <div className="w-px h-24 bg-white/50" />
         </div>

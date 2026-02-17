@@ -53,3 +53,47 @@ body {
     transform: translateY(0) scale(1);
   }
 }
+
+@keyframes text-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@layer utilities {
+  .section-animate :is(h1, h2, h3, p, a, button, li, strong) {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+    will-change: transform, opacity, filter;
+  }
+
+  .section-animate.is-visible :is(h1, h2, h3, p, a, button, li, strong) {
+    animation: text-reveal 700ms ease-out forwards;
+    animation-delay: 80ms;
+  }
+
+  .section-animate.is-visible :is(h1, h2, h3) {
+    animation-delay: 40ms;
+  }
+
+  .section-animate.is-visible :is(a, button) {
+    animation-delay: 120ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-animate :is(h1, h2, h3, p, a, button, li, strong) {
+    opacity: 1;
+    animation: none;
+    transform: none;
+    filter: none;
+  }
+}

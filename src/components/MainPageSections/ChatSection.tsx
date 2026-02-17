@@ -18,7 +18,7 @@ const PREVIEW_MESSAGES = [
 
 export default function ChatSection() {
   return (
-    <section className="relative w-full py-28 max-md:py-12 bg-neutral-900 border-t border-white/10 overflow-hidden">
+    <section className="section-animate relative w-full py-28 max-md:py-12 bg-neutral-900 border-t border-white/10 overflow-hidden">
       <div className="absolute inset-0 opacity-15 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(6,182,212,0.24),transparent_32%),radial-gradient(circle_at_90%_80%,rgba(59,130,246,0.20),transparent_30%)]" />
       </div>
@@ -74,25 +74,25 @@ export default function ChatSection() {
         </div>
 
         <div className="md:col-span-7">
-          <div className="w-full rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md shadow-2xl shadow-cyan-950/20 overflow-hidden">
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="text-[11px] tracking-[0.16em] text-cyan-200 uppercase">
-                  Chat bot preview
+          <div className="w-full rounded-2xl border border-white/30 bg-white/70 backdrop-blur-xl shadow-xl shadow-cyan-950/10 overflow-hidden">
+            <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
+              <div className="flex items-center gap-2 text-cyan-700">
+                <Sparkles size={14} />
+                <span className="text-[11px] tracking-[0.18em] uppercase">
+                  Conversational AI
                 </span>
               </div>
-              <span className="text-[11px] text-neutral-400">text-only mode</span>
+              <span className="text-[11px] text-slate-500">/chat style preview</span>
             </div>
 
-            <div className="p-4 max-md:p-3 space-y-2.5 bg-[linear-gradient(180deg,rgba(2,6,23,0.55),rgba(2,6,23,0.25))]">
+            <div className="p-4 max-md:p-3 space-y-3 bg-[linear-gradient(180deg,rgba(248,250,252,0.85),rgba(241,245,249,0.82))]">
               {PREVIEW_MESSAGES.map((message, index) => (
                 <div
                   key={`${message.role}-${index}`}
-                  className={`max-w-[86%] rounded-xl px-3 py-2 text-sm max-md:text-[13px] leading-relaxed ${
+                  className={`max-w-[86%] rounded-2xl px-4 py-2.5 text-sm max-md:text-[13px] leading-relaxed shadow-sm ${
                     message.role === 'assistant'
-                      ? 'bg-cyan-500/15 border border-cyan-300/30 text-cyan-50 mr-auto'
-                      : 'bg-white/10 border border-white/10 text-slate-100 ml-auto'
+                      ? 'bg-white/90 border border-slate-200 text-slate-900 mr-auto rounded-bl-md'
+                      : 'bg-gradient-to-br from-cyan-500 to-blue-600 text-white ml-auto rounded-br-md'
                   }`}
                 >
                   {message.text}
@@ -100,9 +100,9 @@ export default function ChatSection() {
               ))}
             </div>
 
-            <div className="border-t border-white/10 px-4 py-3 max-md:px-3 max-md:py-2.5">
-              <div className="h-10 max-md:h-9 rounded-full bg-white/10 border border-white/10 px-4 flex items-center text-sm max-md:text-[13px] text-neutral-400">
-                メッセージを入力...
+            <div className="border-t border-slate-200 px-4 py-3 max-md:px-3 max-md:py-2.5 bg-white/65">
+              <div className="h-10 max-md:h-9 rounded-xl bg-white border border-slate-200 px-4 flex items-center text-sm max-md:text-[13px] text-slate-400">
+                メッセージを入力（Enterで送信）
               </div>
             </div>
           </div>

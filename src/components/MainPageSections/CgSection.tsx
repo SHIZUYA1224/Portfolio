@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { Canvas, useFrame } from '@react-three/fiber';
 import {
   TorusKnot,
@@ -8,6 +9,7 @@ import {
   ContactShadows,
   Float,
   Environment,
+  OrbitControls,
 } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -74,46 +76,70 @@ export default function ThreeDFeature() {
 
   return (
     // 4. 背景色の統一: Hero/Aboutと同じ世界観へ
-    <section className="w-full h-[600px] max-md:h-auto max-md:py-10 bg-neutral-900 text-white relative overflow-hidden border-t border-white/10">
-      <div className="container mx-auto h-full max-md:h-auto px-6 max-md:px-4 flex flex-col md:flex-row items-center gap-12 max-md:gap-5">
+    <section className="section-animate w-full h-[640px] max-md:h-auto max-md:py-10 bg-neutral-900 text-white relative overflow-hidden border-t border-white/10">
+      <div className="max-w-7xl mx-auto h-full max-md:h-auto px-6 max-md:px-4 flex flex-col md:flex-row items-center md:items-stretch gap-10 md:gap-14 max-md:gap-5">
         {/* 左側：テキストエリア（AboutSectionと階層を合わせる） */}
-        <div className="flex-1 space-y-8 max-md:space-y-4 z-10 order-1">
+        <div className="flex-1 md:basis-[46%] md:max-w-[520px] space-y-8 max-md:space-y-4 z-10 order-1 md:self-center">
           <div className="space-y-4">
             <span className="text-xs max-md:text-[11px] font-mono text-neutral-500 tracking-widest uppercase">
               02 — Capabilities
             </span>
-            <h2 className="text-4xl max-md:text-2xl md:text-5xl font-light tracking-tight text-white">
+            <h2 className="text-4xl max-md:text-2xl md:text-[3.25rem] font-light tracking-tight text-white">
               3D Interactive
             </h2>
             <div className="h-px w-12 bg-white/30" />
           </div>
 
-          <p className="text-neutral-400 leading-relaxed max-md:leading-[1.75] font-light max-md:text-[0.98rem]">
-            Webブラウザは、もはや「平面」のメディアではありません。
+          <p className="text-neutral-400 leading-[1.95] md:leading-[2.05] max-md:leading-[1.75] font-light max-md:text-[0.98rem]">
+            Webは、平面だけの表現にとどまりません。
             <br />
             <strong className="text-white font-normal">
               React Three Fiber
             </strong>{' '}
-            を駆使し、光の屈折、重力、質感を感じさせる
-            「触れられるデジタル体験」を実装します。
+            を用いて、
             <br />
-            ブランドの物語を、奥行きのある空間で語り直しましょう。
+            3Dモデルの表示や簡単なインタラクションを実装しています。
+            <br />
+            少しずつ、“触れられるプロフィール”を形にしています。
           </p>
 
-          <button className="group flex items-center gap-3 text-sm max-md:text-[11px] tracking-widest text-white hover:text-blue-400 transition-colors duration-300">
-            <span className="uppercase">View Projects</span>
-            <span className="block w-8 h-px bg-white group-hover:bg-blue-400 transition-colors duration-300" />
-          </button>
+          <div className="pt-1 space-y-3">
+            <button className="group flex items-center gap-3 text-sm max-md:text-[11px] tracking-[0.16em] text-white hover:text-blue-400 transition-colors duration-300">
+              <span className="uppercase">View Projects</span>
+              <span className="block w-8 h-px bg-white group-hover:bg-blue-400 transition-colors duration-300" />
+            </button>
+
+            <div className="flex flex-col items-start gap-2">
+              <Link
+                href="/room"
+                className="inline-flex items-center rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs tracking-[0.14em] text-white hover:bg-white hover:text-black transition-all duration-300"
+              >
+                ROOM
+              </Link>
+              <p className="text-[12px] text-neutral-400 leading-relaxed">
+                /ROOM: 3D空間上で各コンテンツへ移動できる入口です。
+              </p>
+              <Link
+                href="/model"
+                className="inline-flex items-center rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs tracking-[0.14em] text-white hover:bg-white hover:text-black transition-all duration-300"
+              >
+                MODEL
+              </Link>
+              <p className="text-[12px] text-neutral-400 leading-relaxed">
+                /MODEL: VRMモデルの表示と動作確認ができるページです。
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* 右側：3D表示エリア */}
-        <div className="flex-1 w-full h-full relative order-2 md:order-2 min-h-[400px] max-md:min-h-[220px] max-md:h-[230px]">
+        <div className="flex-1 md:basis-[54%] w-full h-full relative order-2 md:order-2 min-h-[420px] max-md:min-h-[220px] max-md:h-[230px]">
           {/* 背景装飾（スポットライト的な効果） */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] max-md:w-[220px] h-[300px] max-md:h-[220px] bg-blue-500/20 blur-[100px] rounded-full pointer-events-none" />
+          <div className="absolute top-1/2 left-[53%] -translate-x-1/2 -translate-y-1/2 w-[340px] max-md:w-[220px] h-[340px] max-md:h-[220px] bg-blue-500/20 blur-[110px] rounded-full pointer-events-none" />
 
           <Canvas
             camera={{
-              position: isMobile ? [0, 0.02, 6.9] : [0, 0, 6],
+              position: isMobile ? [0, 0.02, 6.9] : [0.25, 0, 6],
               fov: isMobile ? 52 : 45,
             }}
             className="z-10"
@@ -122,6 +148,16 @@ export default function ThreeDFeature() {
             <Environment preset="city" />
 
             <AbstractGlassObject isMobile={isMobile} />
+
+            <OrbitControls
+              enableZoom={false}
+              enablePan={false}
+              minPolarAngle={Math.PI / 2.2}
+              maxPolarAngle={Math.PI / 1.8}
+              rotateSpeed={0.7}
+              dampingFactor={0.08}
+              enableDamping
+            />
 
             {/* 影の表現 */}
             <ContactShadows

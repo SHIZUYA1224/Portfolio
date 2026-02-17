@@ -2,16 +2,18 @@ import React from 'react';
 
 interface TitleProps {
   text: string;
+  className?: string;
 }
 
-export default function Title({ text }: TitleProps) {
+export default function Title({ text, className = '' }: TitleProps) {
   return (
     <div className="relative inline-block group cursor-default">
       <h1 
-        className="
+        className={`
           relative z-10
           text-5xl md:text-8xl font-black tracking-tighter text-neutral-900
-        "
+          ${className}
+        `}
       >
         {text}
       </h1>
