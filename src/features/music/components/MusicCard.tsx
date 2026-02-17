@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { Play, Pause, Info } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
 import { usePlayer } from '@/features/music/context/PlayerContext';
 import type { Track } from '@/features/music/types';
 
@@ -115,7 +114,7 @@ export default function MusicCard({ track, onSelect }: MusicCardProps) {
         </div>
       </div>
 
-      <div className="p-4 flex items-start justify-between gap-3">
+      <div className="p-4">
         <div className="min-w-0">
           <h3
             className="text-lg font-semibold text-gray-900 truncate"
@@ -133,18 +132,6 @@ export default function MusicCard({ track, onSelect }: MusicCardProps) {
             {track.category}
           </p>
         </div>
-
-        <Link
-          href={`/music/${track.id}`}
-          onClick={(e) => e.stopPropagation()}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') e.stopPropagation();
-          }}
-          aria-label={`詳細: ${track.title}`}
-          className="ml-2 p-2 bg-white rounded-full shadow hover:bg-cyan-50 transition flex items-center justify-center h-8 w-8 border border-zinc-200"
-        >
-          <Info size={14} className="text-slate-700" />
-        </Link>
       </div>
     </div>
   );

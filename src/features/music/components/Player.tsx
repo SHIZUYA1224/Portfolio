@@ -113,11 +113,70 @@ export default function Player({ track, playlist, onSelectTrack }: PlayerProps) 
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-black text-gray-300 p-3 z-50 border-t border-gray-600">
+    <div className="fixed bottom-0 left-0 right-0 bg-black/95 text-gray-300 p-3 z-50 border-t border-gray-700 backdrop-blur">
       <audio ref={audioRef} />
 
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
-        <div className="flex items-center w-1/4 min-w-[150px] pr-2">
+      <div className="max-w-7xl mx-auto">
+        <div className="md:hidden space-y-2.5">
+          <div className="flex items-center gap-2">
+            <Image
+              src={coverSrc}
+              alt={`${track.title} cover`}
+              width={36}
+              height={36}
+              className="rounded-md object-cover flex-shrink-0"
+            />
+            <div className="truncate min-w-0">
+              <h3 className="text-sm font-medium truncate text-gray-100">
+                {track.title}
+              </h3>
+              <p className="text-xs text-gray-400 truncate">
+                {track.artist || 'Unknown Artist'}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center gap-6">
+            <button onClick={prevTrack} aria-label="Previous Track">
+              <SkipBack className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setCtxIsPlaying(!ctxIsPlaying)}
+              aria-label={ctxIsPlaying ? 'Pause' : 'Play'}
+              className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center"
+            >
+              {ctxIsPlaying ? (
+                <Pause className="w-6 h-6" />
+              ) : (
+                <Play className="w-6 h-6 ml-0.5" />
+              )}
+            </button>
+            <button onClick={nextTrack} aria-label="Next Track">
+              <SkipForward className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="space-y-1">
+            <input
+              type="range"
+              min={0}
+              max={Math.max(duration || track.duration || 0, 0)}
+              value={Math.min(
+                progress,
+                Math.max(duration || track.duration || 0)
+              )}
+              onChange={(e) => seek(Number(e.target.value))}
+              className="w-full accent-cyan-400"
+            />
+            <div className="flex items-center justify-between text-[11px] text-gray-400 font-mono">
+              <span>{formatTime(progress)}</span>
+              <span>{formatTime(duration || track.duration || 0)}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden md:flex items-center justify-between">
+          <div className="flex items-center w-1/4 min-w-[150px] pr-2">
           <Image
             src={coverSrc}
             alt={`${track.title} cover`}
@@ -133,61 +192,62 @@ export default function Player({ track, playlist, onSelectTrack }: PlayerProps) 
               {track.artist || 'Unknown Artist'}
             </p>
           </div>
-        </div>
-
-        <div className="flex items-center justify-center space-x-3 w-1/2">
-          <button onClick={prevTrack} aria-label="Previous Track">
-            <SkipBack className="w-4 h-4" />
-          </button>
-
-          <button
-            onClick={() => setCtxIsPlaying(!ctxIsPlaying)}
-            aria-label={ctxIsPlaying ? 'Pause' : 'Play'}
-          >
-            {ctxIsPlaying ? (
-              <Pause className="w-5 h-5" />
-            ) : (
-              <Play className="w-5 h-5" />
-            )}
-          </button>
-
-          <button onClick={nextTrack} aria-label="Next Track">
-            <SkipForward className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="hidden md:flex items-center justify-end w-1/4 space-x-4">
-          <div className="flex items-center w-full max-w-sm">
-            <span className="text-xs mr-1 min-w-[30px] text-right font-mono">
-              {formatTime(progress)}
-            </span>
-            <input
-              type="range"
-              min={0}
-              max={Math.max(duration || track.duration || 0, 0)}
-              value={Math.min(
-                progress,
-                Math.max(duration || track.duration || 0)
-              )}
-              onChange={(e) => seek(Number(e.target.value))}
-              className="w-full"
-            />
-            <span className="text-xs ml-1 min-w-[30px] text-left font-mono">
-              {formatTime(duration || track.duration || 0)}
-            </span>
           </div>
 
-          <div className="flex items-center min-w-[100px]">
-            <Volume2 className="w-4 h-4 mr-1 text-gray-500" />
-            <input
-              type="range"
-              min={0}
-              max={1}
-              step={0.01}
-              value={volume}
-              onChange={(e) => setVol(Number(e.target.value))}
-              className="w-full h-1"
-            />
+          <div className="flex items-center justify-center space-x-3 w-1/2">
+            <button onClick={prevTrack} aria-label="Previous Track">
+              <SkipBack className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={() => setCtxIsPlaying(!ctxIsPlaying)}
+              aria-label={ctxIsPlaying ? 'Pause' : 'Play'}
+            >
+              {ctxIsPlaying ? (
+                <Pause className="w-5 h-5" />
+              ) : (
+                <Play className="w-5 h-5" />
+              )}
+            </button>
+
+            <button onClick={nextTrack} aria-label="Next Track">
+              <SkipForward className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="hidden md:flex items-center justify-end w-1/4 space-x-4">
+            <div className="flex items-center w-full max-w-sm">
+              <span className="text-xs mr-1 min-w-[30px] text-right font-mono">
+                {formatTime(progress)}
+              </span>
+              <input
+                type="range"
+                min={0}
+                max={Math.max(duration || track.duration || 0, 0)}
+                value={Math.min(
+                  progress,
+                  Math.max(duration || track.duration || 0)
+                )}
+                onChange={(e) => seek(Number(e.target.value))}
+                className="w-full"
+              />
+              <span className="text-xs ml-1 min-w-[30px] text-left font-mono">
+                {formatTime(duration || track.duration || 0)}
+              </span>
+            </div>
+
+            <div className="flex items-center min-w-[100px]">
+              <Volume2 className="w-4 h-4 mr-1 text-gray-500" />
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={volume}
+                onChange={(e) => setVol(Number(e.target.value))}
+                className="w-full h-1"
+              />
+            </div>
           </div>
         </div>
       </div>
