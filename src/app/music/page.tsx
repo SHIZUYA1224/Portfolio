@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { TrackList, TRACKS, usePlayer } from '@/features/music';
+import PageIntroOverlay from '@/components/common/PageIntroOverlay';
 
 export default function Music() {
   const { playTrack } = usePlayer();
@@ -19,6 +20,12 @@ export default function Music() {
 
   return (
     <main className="min-h-screen pb-36">
+      <PageIntroOverlay
+        storageKey="intro:music:v1"
+        title="MUSICページのご紹介"
+        body="このページでは、私が作曲した楽曲を視聴できます。ジャンルで絞り込みながら、カードから再生や詳細確認ができます。"
+        tech="React Context + HTMLAudioElement + Next.js App Router"
+      />
       <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.16),transparent_35%),radial-gradient(circle_at_85%_10%,rgba(251,191,36,0.18),transparent_30%),linear-gradient(160deg,#f8fafc_0%,#f1f5f9_100%)] p-6 md:p-8 shadow-sm">
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">

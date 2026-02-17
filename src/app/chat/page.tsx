@@ -3,6 +3,7 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
 import { InputArea, MessageList, type ChatMessage } from '@/features/chat';
+import PageIntroOverlay from '@/components/common/PageIntroOverlay';
 
 const SUGGESTIONS = [
   '自己紹介を短くお願いします',
@@ -81,6 +82,12 @@ export default function Chat() {
 
   return (
     <div className="relative h-[calc(100vh-5rem)] overflow-hidden bg-[linear-gradient(155deg,#ecfeff_0%,#e2e8f0_40%,#f8fafc_100%)]">
+      <PageIntroOverlay
+        storageKey="intro:chat:v1"
+        title="CHATページのご紹介"
+        body="このページではAIと会話できます。ポートフォリオ情報をもとに返答し、質問テンプレートからすぐ試せます。"
+        tech="Next.js API Route + xAI API + React State"
+      />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(6,182,212,0.18),transparent_34%),radial-gradient(circle_at_85%_85%,rgba(59,130,246,0.14),transparent_32%)]" />
 
       <div className="relative z-10 mx-auto flex h-full w-full max-w-5xl flex-col px-3 md:px-5">

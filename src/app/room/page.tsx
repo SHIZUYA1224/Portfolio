@@ -1,11 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import RoomOverlay from './RoomOverlay';
 import RoomScene from './RoomScene';
 import { type RoomModelItem } from './roomData';
+import ThreeDLoadGate from '@/components/common/ThreeDLoadGate';
+import PageIntroOverlay from '@/components/common/PageIntroOverlay';
 
 export default function Room() {
+  const router = useRouter();
+  const [canLoad3D, setCanLoad3D] = useState(false);
+  const [introClosed, setIntroClosed] = useState(false);
   const [selectedModel, setSelectedModel] = useState<RoomModelItem | null>(
     null
   );
@@ -23,14 +29,18 @@ export default function Room() {
         <p>左ドラッグ: 回転 / 右ドラッグ: 平行移動 / ホイール: ズーム</p>
       </div>
 
-      <RoomScene
-        onSelect={handleSelect}
-        onModelReady={() => setIsLoading(false)}
-      />
+      {canLoad3D && (
+        <RoomScene
+          onSelect={handleSelect}
+          onModelReady={() => setIsLoading(false)}
+        />
+      )}
 
-      {selectedModel && <RoomOverlay item={selectedModel} onClose={handleClose} />}
+      {selectedModel && (
+        <RoomOverlay item={selectedModel} onClose={handleClose} />
+      )}
 
-      {isLoading && (
+      {canLoad3D && isLoading && (
         <div className="absolute inset-0 z-30 grid place-items-center bg-slate-950/92 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/15 bg-white/5 px-6 py-5">
             <div className="h-12 w-12 animate-spin rounded-full border-4 border-cyan-300/20 border-t-cyan-300" />
@@ -44,6 +54,25 @@ export default function Room() {
             </div>
           </div>
         </div>
+      )}
+
+      {!canLoad3D && (
+        <ThreeDLoadGate
+          title="ROOMの3Dデータを読み込みますか？"
+          description="通信量が発生する場合があります。"
+          onConfirm={() => setCanLoad3D(true)}
+          onBack={() => router.push('/')}
+        />
+      )}
+
+      {canLoad3D && !isLoading && !introClosed && (
+        <PageIntroOverlay
+          storageKey="intro:room:v1"
+          title="ROOMページのご紹介"
+          body="このページでは3Dルームを自由に操作し、オブジェクト情報を確認できます。最初に通信確認を行ってから読み込みます。"
+          tech="React Three Fiber + GLBモデル + ノード選択UI"
+          onDone={() => setIntroClosed(true)}
+        />
       )}
     </main>
   );

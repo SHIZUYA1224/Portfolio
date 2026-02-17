@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import {
@@ -10,8 +11,14 @@ import {
 } from '@/features/model-viewer/config/modelLibrary';
 import type { PresetModel } from '@/features/model-viewer/types';
 import { ModelViewerPanel } from '@/features/model-viewer/ModelViewerPanel';
+import ThreeDLoadGate from '@/components/common/ThreeDLoadGate';
+import PageIntroOverlay from '@/components/common/PageIntroOverlay';
 
 export default function ModelPage() {
+  const router = useRouter();
+  const [canLoad3D, setCanLoad3D] = useState(false);
+  const [introClosed, setIntroClosed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [selected, setSelected] = useState<PresetModel | null>(
     MODEL_LIBRARY[0] ?? null
   );
@@ -129,18 +136,41 @@ export default function ModelPage() {
         </aside>
 
         <section className="relative h-full">
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="xl:hidden absolute left-3 top-3 z-30 inline-flex items-center gap-2 rounded-xl border border-white/20 bg-black/55 px-3 py-2 text-xs font-medium tracking-[0.08em] text-white backdrop-blur-md"
-          >
-            <Menu size={16} />
-            MODELS
-          </button>
+          {canLoad3D && (
+            <>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(true)}
+                className="xl:hidden absolute left-3 top-3 z-30 inline-flex items-center gap-2 rounded-xl border border-white/20 bg-black/55 px-3 py-2 text-xs font-medium tracking-[0.08em] text-white backdrop-blur-md"
+              >
+                <Menu size={16} />
+                MODELS
+              </button>
 
-          <ModelViewerPanel model={selected} />
+              <ModelViewerPanel
+                model={selected}
+                onModelReady={() => setIsLoading(false)}
+              />
+            </>
+          )}
         </section>
       </div>
+
+      {canLoad3D && isLoading && (
+        <div className="absolute inset-0 z-30 grid place-items-center bg-slate-950/92 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/15 bg-white/5 px-6 py-5">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-cyan-300/20 border-t-cyan-300" />
+            <div className="text-center">
+              <p className="text-sm font-semibold text-slate-100">
+                Model Loading
+              </p>
+              <p className="mt-1 text-xs text-slate-300">
+                3Dモデルを読み込み中です...
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {mobileMenuOpen && (
         <div className="xl:hidden absolute inset-0 z-40 flex">
@@ -209,6 +239,25 @@ export default function ModelPage() {
             )}
           </aside>
         </div>
+      )}
+
+      {!canLoad3D && (
+        <ThreeDLoadGate
+          title="MODELの3Dデータを読み込みますか？"
+          description="通信量が発生する場合があります。"
+          onConfirm={() => setCanLoad3D(true)}
+          onBack={() => router.push('/')}
+        />
+      )}
+
+      {canLoad3D && !isLoading && !introClosed && (
+        <PageIntroOverlay
+          storageKey="intro:model:v1"
+          title="MODELページのご紹介"
+          body="このページではVRM/GLBモデルを切り替えながら確認できます。3Dデータは通信量が大きいため、読み込み前に確認を行います。"
+          tech="Three.js + React Three Fiber + VRM/GLB Viewer"
+          onDone={() => setIntroClosed(true)}
+        />
       )}
     </main>
   );

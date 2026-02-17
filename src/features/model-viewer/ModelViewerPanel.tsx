@@ -6,6 +6,7 @@ import type { PresetModel, ViewerSettings } from './types';
 
 type Props = {
   model: PresetModel | null;
+  onModelReady?: () => void;
 };
 
 function ToggleChip({
@@ -31,7 +32,7 @@ function ToggleChip({
   );
 }
 
-export function ModelViewerPanel({ model }: Props) {
+export function ModelViewerPanel({ model, onModelReady }: Props) {
   const [settings, setSettings] = useState<ViewerSettings>({
     autoRotate: true,
     showGrid: true,
@@ -139,6 +140,7 @@ export function ModelViewerPanel({ model }: Props) {
       <Scene
         model={model}
         settings={settings}
+        onModelLoad={onModelReady}
         onCameraTransitionEnd={() => {
           if (!model) return;
           setPopupModelId(model.id);
