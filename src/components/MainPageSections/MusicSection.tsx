@@ -139,10 +139,10 @@ export default function MusicSection() {
 
           <Link
             href="/music"
-            className="self-start px-6 max-md:px-4 py-3 max-md:py-2.5 border border-white/20 rounded-full text-sm max-md:text-xs text-white tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300 flex items-center gap-2"
+            className="self-start px-6 max-md:px-4 py-3 max-md:py-2.5 border border-white rounded-full text-sm max-md:text-xs text-black bg-white hover:bg-neutral-200 transition-all duration-300 flex items-center gap-2"
           >
             <Disc size={16} className={isPlaying ? 'animate-spin' : ''} />
-            <span>DISCOGRAPHY</span>
+            <span>MUSICページへ移動</span>
           </Link>
         </div>
 

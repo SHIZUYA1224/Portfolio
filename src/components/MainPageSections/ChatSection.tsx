@@ -66,9 +66,9 @@ export default function ChatSection() {
 
           <Link
             href="/chat"
-            className="self-start mt-1 inline-flex items-center gap-2 rounded-full border border-cyan-300/40 bg-cyan-500/10 px-5 py-2.5 text-xs tracking-[0.14em] text-cyan-100 transition hover:bg-cyan-400 hover:text-slate-950 hover:border-cyan-300"
+            className="self-start mt-1 inline-flex items-center gap-2 rounded-full border border-white bg-white px-5 py-2.5 text-xs tracking-[0.08em] text-black transition hover:bg-neutral-200"
           >
-            OPEN CHAT
+            CHATページへ移動
             <ArrowRight size={14} />
           </Link>
         </div>

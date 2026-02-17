@@ -4,8 +4,6 @@ import React from 'react';
 import {
   Mail,
   Github,
-  Linkedin,
-  Twitter,
   ArrowUpRight,
   ArrowRight,
 } from 'lucide-react';
@@ -41,7 +39,7 @@ export default function ContactSection() {
 
             {/* メールボタン: 主要な導線なので目立たせる */}
             <a
-              href="mailto:your-email@example.com"
+              href="mailto:kubotashizuya@gmail.com"
               className="group inline-flex items-center gap-4 max-md:gap-2 px-8 max-md:px-5 py-4 max-md:py-3 bg-white text-black rounded-full text-lg max-md:text-sm font-medium transition-transform duration-300 hover:scale-105"
             >
               <Mail size={20} />
@@ -64,20 +62,8 @@ export default function ContactSection() {
               {
                 name: 'GitHub',
                 icon: Github,
-                url: 'https://github.com/your-github',
-                id: '@shizuya_dev',
-              },
-              {
-                name: 'LinkedIn',
-                icon: Linkedin,
-                url: 'https://linkedin.com/in/your-profile',
-                id: 'SHIZUYA',
-              },
-              {
-                name: 'Twitter / X',
-                icon: Twitter,
-                url: 'https://twitter.com',
-                id: '@shizuya_x',
+                url: 'https://github.com/SHIZUYA1224',
+                id: '@SHIZUYA1224',
               },
             ].map((social) => (
               <a

@@ -243,8 +243,10 @@ export default function ModelPage() {
 
       {!canLoad3D && (
         <ThreeDLoadGate
-          title="MODELの3Dデータを読み込みますか？"
-          description="通信量が発生する場合があります。"
+          title="MODELページの3Dデータを読み込みますか？"
+          description={
+            'このページではVRM / GLBモデルを表示するため、3Dデータの読み込みが必要です。\n通信環境によっては読み込み完了まで時間がかかる場合があります。'
+          }
           onConfirm={() => setCanLoad3D(true)}
           onBack={() => router.push('/')}
         />

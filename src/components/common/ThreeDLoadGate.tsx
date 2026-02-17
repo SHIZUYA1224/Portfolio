@@ -17,7 +17,9 @@ export default function ThreeDLoadGate({
     <div className="absolute inset-0 z-50 grid place-items-center bg-slate-950/88 backdrop-blur-sm">
       <div className="w-[min(92vw,460px)] rounded-2xl border border-white/15 bg-white/8 px-6 py-6 text-white shadow-2xl">
         <p className="text-lg font-semibold">{title}</p>
-        <p className="mt-2 text-sm text-slate-200">{description}</p>
+        <p className="mt-2 text-sm text-slate-200 whitespace-pre-line">
+          {description}
+        </p>
         <div className="mt-6 flex items-center justify-end gap-3">
           <button
             type="button"

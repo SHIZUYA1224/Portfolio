@@ -104,26 +104,21 @@ export default function ThreeDFeature() {
           </p>
 
           <div className="pt-1 space-y-3">
-            <button className="group flex items-center gap-3 text-sm max-md:text-[11px] tracking-[0.16em] text-white hover:text-blue-400 transition-colors duration-300">
-              <span className="uppercase">View Projects</span>
-              <span className="block w-8 h-px bg-white group-hover:bg-blue-400 transition-colors duration-300" />
-            </button>
-
             <div className="flex flex-col items-start gap-2">
               <Link
                 href="/room"
-                className="inline-flex items-center rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs tracking-[0.14em] text-white hover:bg-white hover:text-black transition-all duration-300"
+                className="inline-flex items-center rounded-full border border-white bg-white px-4 py-2 text-xs tracking-[0.08em] text-black hover:bg-neutral-200 transition-all duration-300"
               >
-                ROOM
+                ROOMページへ移動
               </Link>
               <p className="text-[12px] text-neutral-400 leading-relaxed">
                 /ROOM: 3D空間上で各コンテンツへ移動できる入口です。
               </p>
               <Link
                 href="/model"
-                className="inline-flex items-center rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs tracking-[0.14em] text-white hover:bg-white hover:text-black transition-all duration-300"
+                className="inline-flex items-center rounded-full border border-white bg-white px-4 py-2 text-xs tracking-[0.08em] text-black hover:bg-neutral-200 transition-all duration-300"
               >
-                MODEL
+                MODELページへ移動
               </Link>
               <p className="text-[12px] text-neutral-400 leading-relaxed">
                 /MODEL: VRMモデルの表示と動作確認ができるページです。

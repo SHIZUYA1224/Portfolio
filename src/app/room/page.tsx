@@ -58,8 +58,10 @@ export default function Room() {
 
       {!canLoad3D && (
         <ThreeDLoadGate
-          title="ROOMの3Dデータを読み込みますか？"
-          description="通信量が発生する場合があります。"
+          title="ROOMページの3Dデータを読み込みますか？"
+          description={
+            'このページでは3Dルームを表示するため、モデルデータの読み込みが必要です。\n通信環境によっては表示まで少し時間がかかる場合があります。'
+          }
           onConfirm={() => setCanLoad3D(true)}
           onBack={() => router.push('/')}
         />
