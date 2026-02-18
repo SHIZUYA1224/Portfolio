@@ -22,14 +22,16 @@ export function CameraControls({
       ref={controlsRef}
       autoRotate={autoRotate}
       autoRotateSpeed={1.6}
-      enablePan={false}
+      enablePan
       enableZoom
       enableRotate
       target={target}
-      minDistance={2.1}
-      maxDistance={100}
+      minDistance={0.5}
+      maxDistance={300}
       zoomSpeed={0.8}
       rotateSpeed={0.5}
+      panSpeed={0.8}
+      screenSpacePanning
     />
   );
 }

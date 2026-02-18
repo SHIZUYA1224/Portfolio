@@ -81,7 +81,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="relative h-[calc(100vh-5rem)] overflow-hidden bg-[linear-gradient(155deg,#ecfeff_0%,#e2e8f0_40%,#f8fafc_100%)]">
+    <div className="relative h-[calc(100dvh-5rem)] md:h-[calc(100vh-5rem)] overflow-hidden bg-[linear-gradient(155deg,#ecfeff_0%,#e2e8f0_40%,#f8fafc_100%)]">
       <PageIntroOverlay
         storageKey="intro:chat:v1"
         title="CHATページのご紹介"
@@ -123,15 +123,15 @@ export default function Chat() {
         )}
 
         <MessageList messages={messages} isThinking={isSending || isStreaming} />
-      </div>
 
-      <InputArea
-        input={input}
-        setInput={setInput}
-        isSending={isSending || isStreaming}
-        isStreaming={isStreaming}
-        sendMessage={sendMessage}
-      />
+        <InputArea
+          input={input}
+          setInput={setInput}
+          isSending={isSending || isStreaming}
+          isStreaming={isStreaming}
+          sendMessage={sendMessage}
+        />
+      </div>
     </div>
   );
 }

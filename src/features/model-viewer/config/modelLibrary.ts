@@ -31,14 +31,54 @@ export const MODEL_LIBRARY: PresetModel[] = [
       'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
   },
   {
-    id: 'MODEL_B',
-    name: 'Model B',
-    url: '/models/GLB.glb',
+    id: 'OBJECT_FIG',
+    name: 'FIG',
+    url: '/models/FIG.glb',
     type: 'gltf',
-    category: 'character',
-    description: 'モデル名・説明はここで管理してください。',
+    category: 'object',
+    description: '3Dオブジェクト（FIG）',
     thumbnail:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
+      'https://images.unsplash.com/photo-1610296669228-602fa827fc1f?auto=format&fit=crop&w=400&q=80',
+  },
+  {
+    id: 'OBJECT_PIANO',
+    name: 'PIANO',
+    url: '/models/PIANO.glb',
+    type: 'gltf',
+    category: 'object',
+    description: '3Dオブジェクト（PIANO）',
+    thumbnail:
+      'https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?auto=format&fit=crop&w=400&q=80',
+  },
+  {
+    id: 'OBJECT_GUITAR',
+    name: 'GUITAR',
+    url: '/models/GUITAR.glb',
+    type: 'gltf',
+    category: 'object',
+    description: '3Dオブジェクト（GUITAR）',
+    thumbnail:
+      'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=400&q=80',
+  },
+  {
+    id: 'OBJECT_HEADPHONE',
+    name: 'HEADPHONE',
+    url: '/models/HEADPHONE.glb',
+    type: 'gltf',
+    category: 'object',
+    description: '3Dオブジェクト（HEADPHONE）',
+    thumbnail:
+      'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80',
+  },
+  {
+    id: 'OBJECT_MECHA',
+    name: 'MECHA',
+    url: '/models/MECHA.glb',
+    type: 'gltf',
+    category: 'object',
+    description: '3Dオブジェクト（MECHA）',
+    thumbnail:
+      'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=400&q=80',
   },
 ];
 

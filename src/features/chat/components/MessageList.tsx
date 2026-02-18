@@ -24,7 +24,7 @@ export default function MessageList({ messages, isThinking = false }: Props) {
   return (
     <div
       ref={containerRef}
-      className="flex-1 overflow-y-auto px-4 md:px-6 py-6 space-y-4 mb-28"
+      className="flex-1 overflow-y-auto px-4 md:px-6 py-6 space-y-4"
     >
       {messages.map((m, i) => (
         <Message key={i} message={m} index={i} />

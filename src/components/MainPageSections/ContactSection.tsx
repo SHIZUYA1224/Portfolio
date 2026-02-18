@@ -4,6 +4,7 @@ import React from 'react';
 import {
   Mail,
   Github,
+  Twitter,
   ArrowUpRight,
   ArrowRight,
 } from 'lucide-react';
@@ -33,8 +34,8 @@ export default function ContactSection() {
               <span className="text-neutral-500">together.</span>
             </h2>
             <p className="text-neutral-400 max-w-md leading-relaxed max-md:leading-[1.85] max-md:text-sm">
-              プロジェクトのご相談、技術的な質問、あるいは単なる挨拶でも構いません。
-              あなたのアイデアを、私のコードで形にします。
+              現在、フロントエンド／3D表現／AI活用に関わるポジションを中心に就職活動中です。
+              カジュアル面談や採用に関するご連絡をお待ちしています。
             </p>
 
             {/* メールボタン: 主要な導線なので目立たせる */}
@@ -64,6 +65,12 @@ export default function ContactSection() {
                 icon: Github,
                 url: 'https://github.com/SHIZUYA1224',
                 id: '@SHIZUYA1224',
+              },
+              {
+                name: 'X',
+                icon: Twitter,
+                url: 'https://x.com/shizuya_1224?s=21',
+                id: 'SHIZUYA / @SHIZUYA_1224',
               },
             ].map((social) => (
               <a
