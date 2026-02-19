@@ -26,7 +26,7 @@ export default function Header() {
       scroll-transparent
     "
     >
-      <nav className="relative container mx-auto h-14 md:h-[4.25rem] px-3 md:px-6 flex items-center justify-center md:justify-start gap-2 md:gap-4">
+      <nav className="relative mx-auto h-14 md:h-[4.25rem] w-full max-w-7xl px-4 md:px-6 flex items-center justify-center md:justify-start gap-2 md:gap-4">
         <Link href="/" className="text-white font-semibold text-[18px] md:text-[1.2rem] tracking-tight whitespace-nowrap shrink-0">
           {SITE_BRAND_LABEL}
         </Link>
@@ -36,7 +36,7 @@ export default function Header() {
           aria-label="メニューを開く"
           aria-expanded={isMenuOpen}
           onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="md:hidden absolute right-3 inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/30 text-white"
+          className="md:hidden absolute right-4 inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/30 text-white"
         >
           <span className="text-xl leading-none">{isMenuOpen ? '✕' : '☰'}</span>
         </button>

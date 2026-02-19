@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 export default function AboutSection() {
   return (
@@ -39,7 +40,7 @@ export default function AboutSection() {
 
           {/* 詳細文: 2カラムに分割して情報の密度を上げる */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-md:gap-5 text-neutral-400 leading-loose max-md:leading-[1.85] text-sm md:text-base">
-            <div className="space-y-4">
+            <div className="flex flex-col h-full gap-4">
               <h3 className="text-white font-medium tracking-wide text-[1.9rem] max-md:text-[1.55rem] md:text-base">
                 The Concept
               </h3>
@@ -52,9 +53,18 @@ export default function AboutSection() {
                 モデルの表示、AIチャット、音声再生などを組み合わせながら、
                 静的なWebサイトを「体験できる空間」に近づけることを目標にしています。
               </p>
+              <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-white/10 mt-auto">
+                <Image
+                  src="/HERO.png"
+                  alt="Concept visual"
+                  fill
+                  sizes="(max-width: 1024px) 92vw, 520px"
+                  className="object-cover"
+                />
+              </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="flex flex-col h-full gap-4">
               <h3 className="text-white font-medium tracking-wide text-[1.9rem] max-md:text-[1.55rem] md:text-base">
                 The Stack
               </h3>
@@ -68,6 +78,15 @@ export default function AboutSection() {
                 </strong>
                 の可能性を探っています。
               </p>
+              <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-white/10 mt-auto">
+                <Image
+                  src="/3DViewer.png"
+                  alt="Stack visual"
+                  fill
+                  sizes="(max-width: 1024px) 92vw, 520px"
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
 

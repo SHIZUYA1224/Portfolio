@@ -38,12 +38,6 @@ export default function MusicCard({ track, onSelect }: MusicCardProps) {
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
   return (
     <div
       className={`group relative w-full rounded-2xl transition-all duration-300 ease-in-out cursor-pointer overflow-hidden border bg-white/90 shadow-sm hover:shadow-xl ${
@@ -104,14 +98,6 @@ export default function MusicCard({ track, onSelect }: MusicCardProps) {
           </div>
         )}
 
-        <div className="absolute left-3 bottom-3 flex items-center gap-2">
-          <span className="rounded-full bg-black/50 backdrop-blur px-2 py-1 text-[11px] text-white border border-white/20">
-            {track.genre}
-          </span>
-          <span className="rounded-full bg-black/50 backdrop-blur px-2 py-1 text-[11px] text-white border border-white/20">
-            {formatTime(track.duration)}
-          </span>
-        </div>
       </div>
 
       <div className="p-4">

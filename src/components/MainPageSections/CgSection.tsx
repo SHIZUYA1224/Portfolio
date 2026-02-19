@@ -76,7 +76,7 @@ export default function ThreeDFeature() {
 
   return (
     // 4. 背景色の統一: Hero/Aboutと同じ世界観へ
-    <section className="section-animate w-full h-[640px] max-md:h-auto max-md:py-10 bg-neutral-900 text-white relative overflow-hidden border-t border-white/10">
+    <section className="w-full h-[640px] max-md:h-auto max-md:py-10 bg-neutral-900 text-white relative overflow-hidden border-t border-white/10">
       <div className="max-w-7xl mx-auto h-full max-md:h-auto px-6 max-md:px-4 flex flex-col md:flex-row items-center md:items-stretch gap-10 md:gap-14 max-md:gap-5">
         {/* 左側：テキストエリア（AboutSectionと階層を合わせる） */}
         <div className="flex-1 md:basis-[46%] md:max-w-[520px] space-y-8 max-md:space-y-4 z-10 order-1 md:self-center">

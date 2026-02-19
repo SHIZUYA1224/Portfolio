@@ -1,21 +1,42 @@
 const ROOM_MODELS = [
   {
     objectName: 'Piano',
-    modelName: 'Sample Model A',
+    modelName: 'MUSIC',
     category: 'Music',
     publicPath: '/models/sample-model-a.glb',
+    intro:
+      '自作楽曲をWebプレイヤーに統合し、ブラウザ上で再生できる形で公開しています。',
+    process:
+      '楽曲制作とUI設計を行き来しながら、聴きやすさと操作しやすさの両立を意識して改善しています。',
+    imageUrl: '/covers/artwork.jpg',
+    href: '/music',
+    ctaLabel: 'MUSICページへ移動',
   },
   {
     objectName: 'Monitor',
-    modelName: 'Sample Model C',
+    modelName: 'CHAT',
     category: 'Chat',
     publicPath: '/models/sample-model-c.glb',
+    intro:
+      'ポートフォリオ情報を会話形式で確認できるチャット機能を実装しています。',
+    process:
+      '回答のわかりやすさ、入力のしやすさ、スマートフォンでの安定動作を軸に段階的に調整しています。',
+    imageUrl: '/HERO.png',
+    href: '/chat',
+    ctaLabel: 'CHATページへ移動',
   },
   {
     objectName: 'Lack',
-    modelName: 'Sample Model D',
+    modelName: 'MODEL',
     category: 'Model',
     publicPath: '/models/sample-model-d.glb',
+    intro:
+      'VRM / GLBモデルをWeb上で表示し、表現と操作性を確認できるページです。',
+    process:
+      '見た目の質感だけでなく、読み込み速度や視認性、カメラ操作の快適さを重視して制作しています。',
+    imageUrl: '/covers/rain.png',
+    href: '/model',
+    ctaLabel: 'MODELページへ移動',
   },
 ] as const;
 
