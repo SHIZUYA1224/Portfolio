@@ -29,13 +29,14 @@ export default function RoomOverlay({ item, onClose }: RoomOverlayProps) {
           </h3>
 
           {item.imageUrl && (
-            <div className="relative w-full aspect-[16/7] rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
+            <div className="w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-100 p-2">
               <Image
                 src={item.imageUrl}
                 alt={`${item.modelName} preview`}
-                fill
+                width={1280}
+                height={720}
                 sizes="(max-width: 768px) 92vw, 900px"
-                className="object-cover"
+                className="w-full h-auto object-contain"
               />
             </div>
           )}

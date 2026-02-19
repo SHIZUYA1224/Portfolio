@@ -8,7 +8,7 @@ const ROOM_MODELS = [
       '自作楽曲をWebプレイヤーに統合し、ブラウザ上で再生できる形で公開しています。',
     process:
       '楽曲制作とUI設計を行き来しながら、聴きやすさと操作しやすさの両立を意識して改善しています。',
-    imageUrl: '/covers/artwork.jpg',
+    imageUrl: '/room/picuter/Room_Music.png',
     href: '/music',
     ctaLabel: 'MUSICページへ移動',
   },
@@ -21,7 +21,7 @@ const ROOM_MODELS = [
       'ポートフォリオ情報を会話形式で確認できるチャット機能を実装しています。',
     process:
       '回答のわかりやすさ、入力のしやすさ、スマートフォンでの安定動作を軸に段階的に調整しています。',
-    imageUrl: '/HERO.png',
+    imageUrl: '/room/picuter/Room_Chat.png',
     href: '/chat',
     ctaLabel: 'CHATページへ移動',
   },
@@ -34,7 +34,7 @@ const ROOM_MODELS = [
       'VRM / GLBモデルをWeb上で表示し、表現と操作性を確認できるページです。',
     process:
       '見た目の質感だけでなく、読み込み速度や視認性、カメラ操作の快適さを重視して制作しています。',
-    imageUrl: '/covers/rain.png',
+    imageUrl: '/room/picuter/Room_Model.png',
     href: '/model',
     ctaLabel: 'MODELページへ移動',
   },
