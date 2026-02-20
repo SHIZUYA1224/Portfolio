@@ -9,6 +9,7 @@ export const MAIN_NAV_ITEMS: MainNavItem[] = [
   { href: '/chat', label: 'CHAT' },
   { href: '/music', label: 'MUSIC' },
   { href: '/model', label: 'MODEL' },
+  { href: '/blog', label: 'BLOG' },
 ];
 
 export const FOOTER_HIDDEN_PREFIXES = ['/music', '/room', '/model', '/chat'];
