@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { useMemo, useRef, useState } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Html, OrbitControls, Stats } from '@react-three/drei';
 import { EffectComposer, Outline } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import RoomModel from './RoomModel';
@@ -13,6 +13,34 @@ type RoomSceneProps = {
   onHoverChange?: (objectName: RoomObjectKey | null) => void;
   onModelReady?: () => void;
 };
+
+function RenderInfoOverlay() {
+  const { gl } = useThree();
+  const [drawCalls, setDrawCalls] = useState(0);
+  const [triangles, setTriangles] = useState(0);
+  const elapsedRef = useRef(0);
+
+  useFrame((_, delta) => {
+    elapsedRef.current += delta;
+    if (elapsedRef.current < 0.25) return;
+
+    setDrawCalls(gl.info.render.calls);
+    setTriangles(gl.info.render.triangles);
+
+    elapsedRef.current = 0;
+    gl.info.reset();
+  });
+
+  return (
+    <Html prepend>
+      <div className="pointer-events-none absolute right-3 top-3 z-20 rounded-lg border border-white/15 bg-black/55 px-3 py-2 text-[11px] text-slate-200 backdrop-blur md:right-6 md:top-6 md:text-xs">
+        Draw Calls: {drawCalls}
+        <br />
+        Triangles: {triangles.toLocaleString()}
+      </div>
+    </Html>
+  );
+}
 
 export default function RoomScene({
   onSelect,
@@ -31,6 +59,9 @@ export default function RoomScene({
     <Canvas
       className="absolute inset-0"
       style={{ width: '100%', height: '100%' }}
+      onCreated={({ gl }) => {
+        gl.info.autoReset = false;
+      }}
       shadows={!isMobile}
       dpr={isMobile ? [1, 1.25] : [1, 2]}
       gl={{ antialias: !isMobile, powerPreference: isMobile ? 'default' : 'high-performance' }}
@@ -80,6 +111,8 @@ export default function RoomScene({
           />
         </EffectComposer>
       )}
+      <Stats />
+      <RenderInfoOverlay />
     </Canvas>
   );
 }
